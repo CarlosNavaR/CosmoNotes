@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "392839690430",
+    "project_id": "cosmo-notes",
+    "storage_bucket": "cosmo-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392839690430:android:76aa9801d9b40e5b1486ef",
+        "android_client_info": {
+          "package_name": "com.example.cosmonotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392839690430-4q0na5b3hv7phfoqe6mmv4o639v0m3hh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cosmonotes",
+            "certificate_hash": "c3785879429348ed69f12d7b52c4c7ec05b3390e"
+          }
+        },
+        {
+          "client_id": "392839690430-qk4htrgd26efnn4rs2ibgl30qcodq9dr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKG5nucSCGyYJYw8JLOgV3Ffv8fD-o92Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392839690430-qk4htrgd26efnn4rs2ibgl30qcodq9dr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
