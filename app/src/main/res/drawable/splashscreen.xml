@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient android:angle="90"
+                android:endColor="#29062E"
+                android:centerY="45%"
+                android:centerColor="#AE29E9"
+                android:startColor="#19e8fc"
+                android:type="linear"/>
+        </shape>
+    </item>
+    <item>
+        <bitmap android:src="@drawable/stars"
+            android:gravity="top" />
+    </item>
+
+    <item>
+        <bitmap android:src="@drawable/cosmonotes_logo"
+            android:gravity="center"/>
+    </item>
+</layer-list>
