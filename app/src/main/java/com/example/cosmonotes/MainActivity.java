@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Splash Screen configuration
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -122,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
     }
     // [END auth_with_google]
 
-    // [START signin]
+    // [START sign in]
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    // [END signin]
+    // [END sign in]
 
     private void updateUI(FirebaseUser user) {
 
