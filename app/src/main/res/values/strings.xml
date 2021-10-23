@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Cosmo Notes</string>
     <string name="Desc_logo">Icono cosmo notes</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profilePictureText">Profile google text</string>
 </resources>
