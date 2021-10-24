@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.window.SplashScreen;
@@ -36,10 +37,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    int LOCATION_REQUEST_CODE = 10001;
-    int INTERNET_REQUES_CODE = 10002;
+    public static final int PERMISSION_REQUEST_CODE = 10001;
+    String[] permissions = new String[] {
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
     private SignInButton login_Button;
     private static final String TAG = "GoogleActivity";
@@ -102,25 +108,31 @@ public class MainActivity extends AppCompatActivity {
     // [END on_start_check_user]
 
     // Add Internet permission
-    private void Permisos(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
-                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
-                        LOCATION_REQUEST_CODE);
-            }else{
-                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
-                        LOCATION_REQUEST_CODE);
-            }
+    private boolean Permisos(){
+        int result;
+        List<String> listPermission = new ArrayList<>();
+        for (String  p: permissions) {
+            result = ContextCompat.checkSelfPermission(getApplicationContext(), p);
+            if(result != PackageManager.PERMISSION_GRANTED)
+                listPermission.add(p);
         }
+        if(!listPermission.isEmpty()){
+            ActivityCompat.requestPermissions(this, listPermission.toArray(new String[listPermission.size()]), PERMISSION_REQUEST_CODE);
+            return  false;
+        }
+        return  true;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == LOCATION_REQUEST_CODE){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                //getLastLocation();
-            }else{
-                Permisos();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                String permisssionDenied = "";
+                for (String permission : permissions) {
+                    if (grantResults[0] == PackageManager.PERMISSION_DENIED)
+                        permisssionDenied += "\n" + permission;
+                }
             }
         }
     }
