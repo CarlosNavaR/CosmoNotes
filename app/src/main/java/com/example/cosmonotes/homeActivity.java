@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,13 +19,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.server.response.FastJsonResponse;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+
 public class homeActivity extends AppCompatActivity {
+    
     private static final String TAG = "GoogleActivity";
     private static final int LOCATION_REQUEST_CODE = 100001;
     FusedLocationProviderClient fusedLocationProviderClient; // Para usar la ubicacion
@@ -33,12 +42,14 @@ public class homeActivity extends AppCompatActivity {
     private static String longitud;
     private static String latitud;
     private static String ApiUrl;
+    private TextView mWeatherTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        mWeatherTextView = findViewById(R.id.textviewWeather);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -61,7 +72,7 @@ public class homeActivity extends AppCompatActivity {
                     longitud = Double.toString(location.getLongitude());
                     Log.d(TAG, "On succes: " + location.getLatitude());
                     latitud = Double.toString(location.getLatitude());
-                    ApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+latitud+"&lon="+longitud+"&appid="+ApiKey;
+                    ApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+latitud+"&lon="+longitud+"&appid="+ApiKey+"&units=metric";
                     getWeather();
                 }
             }
@@ -81,6 +92,17 @@ public class homeActivity extends AppCompatActivity {
         StringRequest string = new StringRequest(Request.Method.GET, ApiUrl, new Response.Listener<String>() {
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonData = new JSONObject(response);
+                    JSONArray jsonArray = jsonData.getJSONArray("weather"); // ESte se usa para accesar al elemento weather y traer icono
+                    JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
+                    JSONObject jsonObjectMain = jsonData.getJSONObject("main"); // ESte sirve para obtener la temperatura
+                    double temp = jsonObjectMain.getDouble("temp");
+                    mWeatherTextView.setText(Double.toString(temp));
+                    Log.i(TAG, "ERROR: " + temp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener(){
             @Override
