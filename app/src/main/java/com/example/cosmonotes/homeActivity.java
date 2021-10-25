@@ -105,7 +105,7 @@ public class homeActivity extends AppCompatActivity {
 
                     JSONObject jsonObjectMain = jsonData.getJSONObject("main"); // ESte sirve para obtener la temperatura
                     double temp = jsonObjectMain.getDouble("temp");
-                    mWeatherTextView.setText(Double.toString(temp));
+                    mWeatherTextView.setText(Double.toString(temp) + " °C");
 
                     String IconDrawable = "w" + icon;
                     int id = getResources().getIdentifier(IconDrawable, "drawable", getPackageName());
