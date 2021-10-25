@@ -7,9 +7,12 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,14 +45,16 @@ public class homeActivity extends AppCompatActivity {
     private static String longitud;
     private static String latitud;
     private static String ApiUrl;
-    private TextView mWeatherTextView;
 
+    private TextView mWeatherTextView;
+    private ImageView mIconWeatherImgView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         mWeatherTextView = findViewById(R.id.textviewWeather);
+        mIconWeatherImgView = findViewById(R.id.IconImageWeather);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -94,11 +99,18 @@ public class homeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
                 try {
                     JSONObject jsonData = new JSONObject(response);
-                    JSONArray jsonArray = jsonData.getJSONArray("weather"); // ESte se usa para accesar al elemento weather y traer icono
-                    JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
+                    JSONArray jsonWeatherArray = jsonData.getJSONArray("weather"); // ESte se usa para accesar al elemento weather y traer icono
+                    JSONObject jsonWeather = jsonWeatherArray.getJSONObject(0);
+                    String icon = jsonWeather.getString("icon");
+
                     JSONObject jsonObjectMain = jsonData.getJSONObject("main"); // ESte sirve para obtener la temperatura
                     double temp = jsonObjectMain.getDouble("temp");
                     mWeatherTextView.setText(Double.toString(temp));
+
+                    String IconDrawable = "w" + icon;
+                    int id = getResources().getIdentifier(IconDrawable, "drawable", getPackageName());
+                    Drawable drawable = getResources().getDrawable(id);
+                    mIconWeatherImgView.setBackground(drawable);
                     Log.i(TAG, "ERROR: " + temp);
                 } catch (JSONException e) {
                     e.printStackTrace();
