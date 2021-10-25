@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.35" />
         <entry key="app/src/main/res/drawable/gradientbackground.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/ic_cosmonotes_logo.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36875" />
