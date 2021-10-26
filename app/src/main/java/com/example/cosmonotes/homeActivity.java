@@ -6,7 +6,9 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.location.Address;
@@ -84,6 +86,7 @@ public class homeActivity extends AppCompatActivity {
                 if(location != null){
                     Log.d(TAG, "On succes: " + location.toString());
                     Log.d(TAG, "On succes: " + location.getLongitude());
+
                     longitud = Double.toString(location.getLongitude());
                     Log.d(TAG, "On succes: " + location.getLatitude());
                     latitud = Double.toString(location.getLatitude());
@@ -125,13 +128,16 @@ public class homeActivity extends AppCompatActivity {
                     double temp = jsonObjectMain.getDouble("temp");
                     mWeatherTextView.setText(Double.toString(temp) + " °C");
 
+
+                    Log.e(TAG, "Icono " + icon);
+
                     String IconDrawable = "w" + icon;
                     int id = getResources().getIdentifier(IconDrawable, "drawable", getPackageName());
                     Drawable drawable = getResources().getDrawable(id);
                     mIconWeatherImgView.setBackground(drawable);
 
                     mCityTextView.setText(Ciudad);
-                    Log.i(TAG, "ERROR: " + temp);
+                    Log.i(TAG, "Temperatura: " + temp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
