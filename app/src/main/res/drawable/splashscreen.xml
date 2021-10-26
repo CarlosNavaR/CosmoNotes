@@ -10,6 +10,7 @@
                 android:type="linear"/>
         </shape>
     </item>
+
     <item>
         <bitmap android:src="@drawable/stars"
             android:gravity="top" />

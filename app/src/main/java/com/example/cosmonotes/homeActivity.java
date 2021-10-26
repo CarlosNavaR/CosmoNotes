@@ -9,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,28 +35,36 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.List;
+import java.util.Locale;
 
 public class homeActivity extends AppCompatActivity {
-    
+    private static Geocoder geocoder;
+    private static List<Address> addresses;
     private static final String TAG = "GoogleActivity";
     private static final int LOCATION_REQUEST_CODE = 100001;
     FusedLocationProviderClient fusedLocationProviderClient; // Para usar la ubicacion
 
     private static String ApiKey = "00422bf7e8d26b5adb0b769f1c0275dd";
+    private static String Ciudad;
     private static String longitud;
     private static String latitud;
     private static String ApiUrl;
 
     private TextView mWeatherTextView;
     private ImageView mIconWeatherImgView;
+    private TextView mCityTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        geocoder = new Geocoder(this, Locale.getDefault());
 
         mWeatherTextView = findViewById(R.id.textviewWeather);
         mIconWeatherImgView = findViewById(R.id.IconImageWeather);
+        mCityTextView = findViewById(R.id.textViewCity);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -77,6 +87,15 @@ public class homeActivity extends AppCompatActivity {
                     longitud = Double.toString(location.getLongitude());
                     Log.d(TAG, "On succes: " + location.getLatitude());
                     latitud = Double.toString(location.getLatitude());
+
+                    try {
+                        addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        Ciudad = addresses.get(0).getLocality();
+                        Log.d(TAG, "Ciudad: " +  addresses.get(0).getLocality());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     ApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+latitud+"&lon="+longitud+"&appid="+ApiKey+"&units=metric";
                     getWeather();
                 }
@@ -93,7 +112,6 @@ public class homeActivity extends AppCompatActivity {
 
     private void getWeather(){
         RequestQueue queue = Volley.newRequestQueue(this);
-
         StringRequest string = new StringRequest(Request.Method.GET, ApiUrl, new Response.Listener<String>() {
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
@@ -111,6 +129,8 @@ public class homeActivity extends AppCompatActivity {
                     int id = getResources().getIdentifier(IconDrawable, "drawable", getPackageName());
                     Drawable drawable = getResources().getDrawable(id);
                     mIconWeatherImgView.setBackground(drawable);
+
+                    mCityTextView.setText(Ciudad);
                     Log.i(TAG, "ERROR: " + temp);
                 } catch (JSONException e) {
                     e.printStackTrace();

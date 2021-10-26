@@ -8,8 +8,8 @@
         <entry key="app/src/main/res/drawable/ic_cosmonotes_logo.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36875" />
         <entry key="app/src/main/res/drawable/splashScreeen.xml" value="0.36875" />
-        <entry key="app/src/main/res/drawable/splashscreen.xml" value="1.5" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.75" />
+        <entry key="app/src/main/res/drawable/splashscreen.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_loader.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.67" />
         <entry key="app/src/main/res/layout/fragment_apiweather.xml" value="0.25" />
