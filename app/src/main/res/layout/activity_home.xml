@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".homeActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ProfileUserImgView"
         android:layout_width="101dp"
         android:layout_height="93dp"
         android:layout_marginTop="40dp"
@@ -26,7 +26,7 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.672"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/ProfileUserImgView"
         app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -38,7 +38,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.677"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/ProfileUserImgView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -49,7 +49,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.677"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/ProfileUserImgView"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.graphics.drawable.Icon;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -26,12 +27,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.server.response.FastJsonResponse;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +46,11 @@ import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class homeActivity extends AppCompatActivity {
+
+
     private static Geocoder geocoder;
     private static List<Address> addresses;
     private static final String TAG = "GoogleActivity";
@@ -58,6 +66,7 @@ public class homeActivity extends AppCompatActivity {
     private TextView mWeatherTextView;
     private ImageView mIconWeatherImgView;
     private TextView mCityTextView;
+    private CircleImageView mProfileUserImgView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +76,15 @@ public class homeActivity extends AppCompatActivity {
         mWeatherTextView = findViewById(R.id.textviewWeather);
         mIconWeatherImgView = findViewById(R.id.IconImageWeather);
         mCityTextView = findViewById(R.id.textViewCity);
+        mProfileUserImgView = findViewById(R.id.ProfileUserImgView);
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if(signInAccount != null){
+            mProfileUserImgView.setImageURI(Uri.parse(String.valueOf(signInAccount.getPhotoUrl())));
+            Picasso.get().load(signInAccount.getPhotoUrl()).placeholder(R.drawable.ic_launcher_background).into(mProfileUserImgView);
+        }
     }
 
     @Override
@@ -104,7 +121,6 @@ public class homeActivity extends AppCompatActivity {
                 }
             }
         });
-
         locationTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
