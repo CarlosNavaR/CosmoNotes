@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        android:title="Inicio"
+        app:cnb_iconColor="@color/design_default_color_primary"/>
+    <item
+        android:id="@+id/Calendario"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        android:title="Calendario"
+        app:cnb_iconColor="@color/design_default_color_primary"/>
+    <item
+        android:id="@+id/Notas"
+        android:icon="@drawable/common_google_signin_btn_icon_dark_normal"
+        android:title="Notas"
+        app:cnb_iconColor="@color/design_default_color_primary" />
+    <item
+        android:id="@+id/Pendientes"
+        android:icon="@drawable/common_google_signin_btn_icon_light_focused"
+        android:title="Pendientes"
+        app:cnb_iconColor="@color/design_default_color_primary" />
+</menu>

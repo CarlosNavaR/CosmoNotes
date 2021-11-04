@@ -9,10 +9,17 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36875" />
         <entry key="app/src/main/res/drawable/splashScreeen.xml" value="0.36875" />
         <entry key="app/src/main/res/drawable/splashscreen.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.4520451339915374" />
         <entry key="app/src/main/res/layout/activity_loader.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/fragment_activity_calendar.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_apiweather.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.3338541666666667" />
+        <entry key="app/src/main/res/layout/fragment_calendar_cell.xml" value="0.3338541666666667" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="1.6755725190839694" />
+        <entry key="app/src/main/res/layout/fragment_notes.xml" value="0.3338541666666667" />
+        <entry key="app/src/main/res/layout/fragment_to_do.xml" value="0.3338541666666667" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3338541666666667" />
       </map>
     </option>
   </component>
