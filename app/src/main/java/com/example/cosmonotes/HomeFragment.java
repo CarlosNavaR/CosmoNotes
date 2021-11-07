@@ -42,8 +42,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,6 +68,11 @@ public class HomeFragment extends Fragment {
     private ImageView mIconWeatherImgView;
     private TextView mCityTextView;
     private CircleImageView mProfileUserImgView;
+    private TextView mTextFecha;
+    private TextView mUserName;
+
+    private SimpleDateFormat dateFormat;
+    private String date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,13 +84,22 @@ public class HomeFragment extends Fragment {
         mIconWeatherImgView = view.findViewById(R.id.IconImageWeather);
         mCityTextView = view.findViewById(R.id.textViewCity);
         mProfileUserImgView = view.findViewById(R.id.ProfileUserImgView);
+        mTextFecha = view.findViewById(R.id.text_fecha);
+        mUserName = view.findViewById(R.id.textUserName);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.getContext());
+
+        Locale espanol = new Locale("es","ES");
+        dateFormat = new SimpleDateFormat("EEEE, d MMM ", espanol);
+        Date fecha = new Date();
+        date = dateFormat.format(fecha);
+        mTextFecha.setText(date);
 
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(view.getContext());
         if(signInAccount != null){
             mProfileUserImgView.setImageURI(Uri.parse(String.valueOf(signInAccount.getPhotoUrl())));
             Picasso.get().load(signInAccount.getPhotoUrl()).placeholder(R.drawable.ic_launcher_background).into(mProfileUserImgView);
+            mUserName.setText(upperCaseFirst(signInAccount.getDisplayName()));
         }
         return view;
     }
@@ -92,6 +110,16 @@ public class HomeFragment extends Fragment {
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             getLastLocation();
         }
+    }
+
+    public static String upperCaseFirst(String val) {
+        StringBuffer strbf = new StringBuffer();
+        Matcher match = Pattern.compile("([a-z])([a-z]*)", Pattern.CASE_INSENSITIVE).matcher(val);
+        while(match.find())
+        {
+            match.appendReplacement(strbf, match.group(1).toUpperCase() + match.group(2).toLowerCase());
+        }
+        return match.appendTail(strbf).toString();
     }
 
     private void getLastLocation(){
@@ -141,7 +169,8 @@ public class HomeFragment extends Fragment {
 
                     JSONObject jsonObjectMain = jsonData.getJSONObject("main"); // ESte sirve para obtener la temperatura
                     double temp = jsonObjectMain.getDouble("temp");
-                    mWeatherTextView.setText(Integer.toString((int) Math.round(temp)) + " °C");
+
+                    mWeatherTextView.setText(Integer.toString((int) Math.round(temp)));
 
 
                     Log.e(TAG, "Icono " + icon);

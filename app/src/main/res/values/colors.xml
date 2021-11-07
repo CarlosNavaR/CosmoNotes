@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores usados en figma -->
+    <color name="Morado">#29062E</color>
+    <color name="light_bg">#F7F5F7</color>
+    <color name="light_azul">#BADDFE</color>
+    <color name="weather_icon">#653AB9</color>
+
 </resources>
