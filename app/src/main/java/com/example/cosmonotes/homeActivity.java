@@ -18,6 +18,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import info.androidhive.fontawesome.FontDrawable;
 
 public class homeActivity extends AppCompatActivity {
 
@@ -62,8 +64,6 @@ public class homeActivity extends AppCompatActivity {
         chipNavigationBar.setItemSelected(R.id.home, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new HomeFragment()).commit();
         MenuNavegacion();
-
-
     }
 
     @Override

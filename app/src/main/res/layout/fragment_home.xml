@@ -65,28 +65,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="40dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="362dp"
                 android:layout_height="127dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/ficha_general">
+                android:background="@drawable/ficha_general"
+                android:elevation="5dp">
 
                 <ImageView
                     android:id="@+id/IconImageWeather"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="130dp"
+                    android:layout_height="110dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginStart="2dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/app_name"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
@@ -107,10 +110,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
                     app:layout_constraintVertical_bias="0.416" />
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                <info.androidhive.fontawesome.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/textviewWeather"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="8dp"
@@ -118,10 +120,14 @@
                     android:layout_toEndOf="@+id/IconImageWeather"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ubicacionicono"
+                    android:text="@string/fa_map_marker_alt_solid"
+                    android:textColor="@color/Light_Morado"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textViewCity"
                     app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
-                    app:layout_constraintVertical_bias="0.434" />
+                    app:layout_constraintVertical_bias="0.434"
+                    app:solid_icon="true" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -135,7 +141,7 @@
                     android:layout_toEndOf="@+id/IconImageWeather"
                     android:fontFamily="@font/source_sans_pro_semibold"
                     android:text="°C"
-                    android:textColor="@color/weather_icon"
+                    android:textColor="@color/Light_Morado"
                     android:textSize="19sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_fecha" />
@@ -173,6 +179,111 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="362dp"
+                android:layout_height="94dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/ficha_calendario"
+                android:elevation="5dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:fontFamily="@font/source_sans_pro_semibold"
+                    android:text="Calendario"
+                    android:textColor="@color/Morado"
+                    android:textSize="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.51" />
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="116dp"
+                    android:adjustViewBounds="true"
+                    android:text="@string/fa_calendar_alt"
+                    android:textColor="@color/icono_ficha_amarillo"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:solid_icon="true" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="362dp"
+                android:layout_height="94dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/ficha_notas"
+                android:elevation="5dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:fontFamily="@font/source_sans_pro_semibold"
+                    android:text="Notas"
+                    android:textColor="@color/Morado"
+                    android:textSize="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.51" />
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="116dp"
+                    android:adjustViewBounds="true"
+                    android:text="@string/fa_calendar_week_solid"
+                    android:textColor="@color/icono_ficha_rojo"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:solid_icon="true" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="362dp"
+                android:layout_height="94dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/ficha_pendientes"
+                android:elevation="5dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:fontFamily="@font/source_sans_pro_semibold"
+                    android:text="Pendientes"
+                    android:textColor="@color/Morado"
+                    android:textSize="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.51" />
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="116dp"
+                    android:adjustViewBounds="true"
+                    android:text="@string/fa_calendar_check_solid"
+                    android:textColor="@color/icono_ficha_lila"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:solid_icon="true" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

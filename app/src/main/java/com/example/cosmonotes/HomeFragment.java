@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getView().getContext());
         StringRequest string = new StringRequest(Request.Method.GET, ApiUrl, new Response.Listener<String>() {
             public void onResponse(String response) {
-                Toast.makeText(getView().getContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getView().getContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
                 try {
                     JSONObject jsonData = new JSONObject(response);
                     JSONArray jsonWeatherArray = jsonData.getJSONArray("weather"); // ESte se usa para accesar al elemento weather y traer icono
