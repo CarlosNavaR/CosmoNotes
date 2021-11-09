@@ -61,7 +61,9 @@
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_shape">
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -69,117 +71,119 @@
             android:orientation="vertical"
             android:paddingTop="40dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="362dp"
-                android:layout_height="127dp"
-                android:background="@drawable/ficha_general"
-                android:elevation="5dp">
 
-                <ImageView
-                    android:id="@+id/IconImageWeather"
-                    android:layout_width="130dp"
-                    android:layout_height="110dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="2dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0"
-                    tools:srcCompat="@tools:sample/avatars" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="362dp"
+                    android:layout_height="127dp"
+                    android:background="@drawable/ficha_general"
+                    android:elevation="5dp">
 
-                <TextView
-                    android:id="@+id/textViewCity"
-                    android:layout_width="134dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textviewWeather"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/source_sans_pro"
-                    android:text="TextView"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/Morado"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
-                    app:layout_constraintVertical_bias="0.416" />
+                    <ImageView
+                        android:id="@+id/IconImageWeather"
+                        android:layout_width="130dp"
+                        android:layout_height="110dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="2dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0"
+                        tools:srcCompat="@tools:sample/avatars" />
 
-                <info.androidhive.fontawesome.FontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textviewWeather"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_toEndOf="@+id/IconImageWeather"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ubicacionicono"
-                    android:text="@string/fa_map_marker_alt_solid"
-                    android:textColor="@color/Light_Morado"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textViewCity"
-                    app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
-                    app:layout_constraintVertical_bias="0.434"
-                    app:solid_icon="true" />
+                    <TextView
+                        android:id="@+id/textViewCity"
+                        android:layout_width="134dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textviewWeather"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/source_sans_pro"
+                        android:text="TextView"
+                        android:textAlignment="textStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/Morado"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
+                        app:layout_constraintVertical_bias="0.416" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="63dp"
-                    android:layout_height="32dp"
-                    android:layout_above="@+id/textViewCity"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="60dp"
-                    android:layout_toEndOf="@+id/IconImageWeather"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="°C"
-                    android:textColor="@color/Light_Morado"
-                    android:textSize="19sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_fecha" />
+                    <info.androidhive.fontawesome.FontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textviewWeather"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_toEndOf="@+id/IconImageWeather"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ubicacionicono"
+                        android:text="@string/fa_map_marker_alt_solid"
+                        android:textColor="@color/Light_Morado"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewCity"
+                        app:layout_constraintTop_toBottomOf="@+id/textviewWeather"
+                        app:layout_constraintVertical_bias="0.434"
+                        app:solid_icon="true" />
 
-                <TextView
-                    android:id="@+id/textviewWeather"
-                    android:layout_width="131dp"
-                    android:layout_height="42dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="40dp"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="-20"
-                    android:textAlignment="viewStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/Morado"
-                    android:textSize="35sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_fecha" />
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="63dp"
+                        android:layout_height="32dp"
+                        android:layout_above="@+id/textViewCity"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="60dp"
+                        android:layout_toEndOf="@+id/IconImageWeather"
+                        android:fontFamily="@font/source_sans_pro_semibold"
+                        android:text="°C"
+                        android:textColor="@color/Light_Morado"
+                        android:textSize="19sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_fecha" />
 
-                <TextView
-                    android:id="@+id/text_fecha"
-                    android:layout_width="135dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="40dp"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="TextView"
-                    android:textColor="@color/Morado"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/textviewWeather"
+                        android:layout_width="131dp"
+                        android:layout_height="42dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="40dp"
+                        android:fontFamily="@font/source_sans_pro_semibold"
+                        android:text="-20"
+                        android:textAlignment="viewStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/Morado"
+                        android:textSize="35sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_fecha" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/text_fecha"
+                        android:layout_width="135dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="40dp"
+                        android:fontFamily="@font/source_sans_pro_semibold"
+                        android:text="TextView"
+                        android:textColor="@color/Morado"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="362dp"
@@ -255,6 +259,7 @@
                 android:layout_width="362dp"
                 android:layout_height="94dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="40dp"
                 android:background="@drawable/ficha_pendientes"
                 android:elevation="5dp">
 
@@ -287,7 +292,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-
+    </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
 </LinearLayout>
