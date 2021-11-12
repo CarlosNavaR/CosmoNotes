@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,6 +62,8 @@ public class homeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        CalendarUtils.selectedDate = LocalDate.now();
 
         chipNavigationBar = findViewById(R.id.bottom_nav_bar);
         chipNavigationBar.setItemSelected(R.id.home, true);
@@ -101,4 +106,11 @@ public class homeActivity extends AppCompatActivity {
                 });
     }
 
+    public void newEvent(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new NewEventFragment()).commit();
+    }
+
+    public void CancelCreateEvent(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new CalendarFragment()).commit();
+    }
 }

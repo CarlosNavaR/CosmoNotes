@@ -101,6 +101,11 @@ public class HomeFragment extends Fragment {
             Picasso.get().load(signInAccount.getPhotoUrl()).placeholder(R.drawable.ic_launcher_background).into(mProfileUserImgView);
             mUserName.setText(upperCaseFirst(signInAccount.getDisplayName()));
         }
+
+        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            getLastLocation();
+        }
+
         return view;
     }
 
@@ -110,6 +115,12 @@ public class HomeFragment extends Fragment {
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             getLastLocation();
         }
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static String upperCaseFirst(String val) {

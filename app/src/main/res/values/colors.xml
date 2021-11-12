@@ -11,6 +11,7 @@
     <!-- Colores usados en figma -->
     <color name="Morado">#29062E</color>
     <color name="Light_Morado">#653AB9</color>
+    <color name="btn_Azul">#198efc</color>
     <color name="light_bg">#F7F5F7</color>
     <color name="light_azul">#BADDFE</color>
 
@@ -20,4 +21,12 @@
     <color name="icono_ficha_rojo">#ffa0a0</color>
     <color name="menu_lila">#efd4fb</color>
     <color name="icono_ficha_lila">#d066ff</color>
+
+    <!--Colores de los eventos-->
+    <color name="eventoRojo">#F1524F</color>
+    <color name="eventoAmarillo">#FEC627</color>
+    <color name="eventoAzul">#038ED1</color>
+    <color name="eventoMorado">#8362A7</color>
+    <color name="eventoVerde">#4BB168</color>
+    <color name="eventoRosa">#E86DA4</color>
 </resources>

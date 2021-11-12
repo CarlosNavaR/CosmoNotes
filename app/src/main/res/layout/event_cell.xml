@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/item_pendiente">
+
+    <LinearLayout
+        android:id="@+id/TagColorLY"
+        android:layout_width="7dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:background="@drawable/radioeventcell">
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/eventCellTV"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_weight="2"
+        android:fontFamily="@font/source_sans_pro"
+        android:gravity="center_vertical"
+        android:text="Event"
+        android:textColor="@color/Morado"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TimeCell"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/source_sans_pro_light"
+        android:gravity="center"
+        android:text="time"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+</LinearLayout>
