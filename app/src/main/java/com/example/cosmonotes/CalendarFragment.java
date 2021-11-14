@@ -3,12 +3,11 @@ package com.example.cosmonotes;
 import static com.example.cosmonotes.CalendarUtils.diasSemanaArray;
 import static com.example.cosmonotes.CalendarUtils.mesAnioFecha;
 
-import android.icu.util.LocaleData;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,20 +16,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.cosmonotes.Models.Event;
-import com.example.cosmonotes.Models.EventAdapter;
+import com.example.cosmonotes.Adapters.CalendarAdapter;
+import com.example.cosmonotes.CalendarModels.Event;
+import com.example.cosmonotes.CalendarModels.EventAdapter;
+import com.example.cosmonotes.CalendarModels.RecyclerViewTouchHelper;
+import com.example.cosmonotes.Utils.DataBaseHelper;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.List;
 
 public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener{
+    private DataBaseHelper db;
+    private List<Event> mEventList;
     private RecyclerView mCalendarRecycleView;
     private TextView mMesAnioTV;
-    private ListView meventListVIew;
+    private RecyclerView mEventListVIew;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +41,9 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
         mCalendarRecycleView = view.findViewById(R.id.calendarRecyclerView);
         mMesAnioTV = view.findViewById(R.id.monthYearTV);
-        meventListVIew = view.findViewById(R.id.eventList);
+        mEventListVIew = view.findViewById(R.id.eventList);
+        db = new DataBaseHelper(getActivity());
+        mEventList = new ArrayList<>();
         setWeekView();
 
         view.findViewById(R.id.NextWeekAction).setOnClickListener(new View.OnClickListener() {
@@ -56,6 +60,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
                 setWeekView();
             }
         });
+
 
         return view;
     }
@@ -74,9 +79,16 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
     private void setEventAdpater()
     {
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getContext(), dailyEvents);
-        meventListVIew.setAdapter(eventAdapter);
+        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate, db);
+        EventAdapter eventAdapter = new EventAdapter(db, getContext());
+        mEventListVIew.setHasFixedSize(true);
+        mEventListVIew.setLayoutManager(new LinearLayoutManager(getContext()));
+        mEventListVIew.setAdapter(eventAdapter);
+        eventAdapter.setEvents(dailyEvents);
+
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelper(eventAdapter));
+        itemTouchHelper.attachToRecyclerView(mEventListVIew);
     }
 
 

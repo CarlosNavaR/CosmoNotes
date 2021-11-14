@@ -1,5 +1,8 @@
-package com.example.cosmonotes.Models;
+package com.example.cosmonotes.CalendarModels;
 
+import com.example.cosmonotes.Utils.DataBaseHelper;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -10,19 +13,16 @@ public class Event {
     private LocalTime hora;
     private String colorNote;
 
-    public static ArrayList<Event> eventsList = new ArrayList<>();
-
-    public static ArrayList<Event> eventsForDate(LocalDate date){
+    public static ArrayList<Event> eventsForDate(LocalDate date, DataBaseHelper db){
         ArrayList<Event> eventos = new ArrayList<>();
-
-        for (Event event : eventsList){
+        for (Event event : db.getAllEvents()){
             if (event.getDate().equals(date))
                 eventos.add(event);
-
         }
         return eventos;
     }
 
+    public Event(){}
     public Event(String titulo, LocalDate fecha, LocalTime hora, String selectedCOlor){
         this.titulo = titulo;
         this.fecha = fecha;
@@ -42,16 +42,16 @@ public class Event {
         return fecha;
     }
 
-    public void setDate(LocalDate date) {
-        this.fecha = date;
+    public void setDate(String date) {
+        this.fecha = LocalDate.parse(date);
     }
 
     public LocalTime getTime() {
         return hora;
     }
 
-    public void setTime(LocalTime time) {
-        this.hora = time;
+    public void setTime(String time) {
+        this.hora = LocalTime.parse(time);
     }
 
     public String getColorNote() {

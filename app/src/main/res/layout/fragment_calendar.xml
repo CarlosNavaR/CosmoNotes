@@ -182,7 +182,7 @@
             android:onClick="newEvent"
             android:elevation="4dp"/>
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/eventList"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"

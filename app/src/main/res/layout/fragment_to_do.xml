@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,11 +8,46 @@
     android:orientation="vertical"
     tools:context=".ToDoFragment">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:text="Pendientes"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_marginTop="15dp"
+        android:padding="10dp"
         android:background="@drawable/rounded_shape">
 
-    </RelativeLayout>
+        <info.androidhive.fontawesome.FontTextView
+            android:id="@+id/newToDo"
+            android:layout_marginTop="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/select_item_calendar"
+            android:gravity="center"
+            android:text="@string/fa_plus_solid"
+            android:textAlignment="center"
+            android:textColor="@color/btn_Azul"
+            android:textSize="20sp"
+            app:solid_icon="true"
+            android:elevation="4dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_todoGroups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/light_bg"
+            android:nestedScrollingEnabled="true"/>
+    </LinearLayout>
 </LinearLayout>

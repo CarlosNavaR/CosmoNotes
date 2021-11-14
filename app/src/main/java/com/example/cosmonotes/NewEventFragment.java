@@ -3,7 +3,6 @@ package com.example.cosmonotes;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.cosmonotes.Models.Event;
+import com.example.cosmonotes.CalendarModels.Event;
+import com.example.cosmonotes.Utils.DataBaseHelper;
 
 import java.time.LocalTime;
-
-import info.androidhive.fontawesome.FontDrawable;
 
 
 public class NewEventFragment extends Fragment {
@@ -29,16 +26,17 @@ public class NewEventFragment extends Fragment {
     private LocalTime hora;
     private String selectedColor;
 
-
+    private DataBaseHelper db;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_event, container, false);
 
+        db = new DataBaseHelper(getActivity());
+
         mTituloEventoET = view.findViewById(R.id.eventTitleET);
         mFechaEventoTV = view.findViewById(R.id.eventDate);
         mHoraEventoTV = view.findViewById(R.id.eventTime);
-
         hora = LocalTime.now();
 
         mHoraEventoTV.setText(" " + CalendarUtils.formatoTIempo(hora));
@@ -133,7 +131,8 @@ public class NewEventFragment extends Fragment {
             public void onClick(View v) {
                 String TituloEvento = mTituloEventoET.getText().toString();
                 Event newEvent = new Event(TituloEvento, CalendarUtils.selectedDate, hora, selectedColor);
-                Event.eventsList.add(newEvent);
+                db.saveEvent(newEvent);
+                //Event.eventsList.add(newEvent);
 
                 ocultarTeclado();
                 FragmentTransaction trans = getFragmentManager().beginTransaction();

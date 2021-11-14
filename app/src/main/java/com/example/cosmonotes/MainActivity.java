@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.window.SplashScreen;
 
+import com.example.cosmonotes.Utils.DataBaseHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     // [END declare_auth]
 
     private GoogleSignInClient mGoogleSignInClient;
-
+    private DataBaseHelper myDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Splash Screen configuration
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        myDB = new DataBaseHelper(MainActivity.this);
     }
 
 

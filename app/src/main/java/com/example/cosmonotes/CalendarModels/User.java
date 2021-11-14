@@ -1,4 +1,4 @@
-package com.example.cosmonotes.Models;
+package com.example.cosmonotes.CalendarModels;
 
 public class User {
 
