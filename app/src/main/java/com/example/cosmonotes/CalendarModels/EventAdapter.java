@@ -1,8 +1,10 @@
 package com.example.cosmonotes.CalendarModels;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmonotes.CalendarUtils;
+import com.example.cosmonotes.MainActivity;
+import com.example.cosmonotes.NewEventFragment;
 import com.example.cosmonotes.R;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 
@@ -22,24 +27,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     private List<Event> mList;
     private Context context;
     private DataBaseHelper db;
+    FragmentActivity activity;
 
 
-    public void setEvents(List<Event> mList) {
-        this.mList = mList;
-        notifyDataSetChanged();
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public EventAdapter(DataBaseHelper db, Context context){
+    public EventAdapter(DataBaseHelper db, Context context, FragmentActivity activity){
         this.context = context;
         this.db = db;
+        this.activity = activity;
     }
 
     @NonNull
@@ -56,6 +50,41 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         gradientDrawable.setColor(Color.parseColor(event.getColorNote()));
         holder.eventCellTV.setText(event.getTitulo());
         holder.eventTimeCell.setText(CalendarUtils.formatoTIempo(event.getTime()));
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public void setEvents(List<Event> mList) {
+        this.mList = mList;
+        notifyDataSetChanged();
+    }
+
+    public void deleteEvent(int position){
+        Event event = mList.get(position);
+        db.deleteEvent(event.getId());
+        mList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void updateEvent(int position){
+        Event event = mList.get(position);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", event.getId());
+        bundle.putString("event", event.getTitulo());
+        bundle.putString("date", event.getDate().toString());
+        bundle.putString("time", event.getTime().toString());
+        bundle.putString("color", event.getColorNote());
+
+        NewEventFragment eventFragment = new NewEventFragment();
+        eventFragment.setArguments(bundle);
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, eventFragment).commit();
     }
 
     @Override

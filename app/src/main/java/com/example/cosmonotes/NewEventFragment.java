@@ -1,6 +1,8 @@
 package com.example.cosmonotes;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,11 +24,16 @@ import java.time.LocalTime;
 public class NewEventFragment extends Fragment {
     private EditText mTituloEventoET;
     private TextView mFechaEventoTV, mHoraEventoTV;
-
+    private boolean isUpdate = false;
     private LocalTime hora;
     private String selectedColor;
 
     private DataBaseHelper db;
+
+    public static NewEventFragment newInstance(){
+        return new NewEventFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,12 +44,6 @@ public class NewEventFragment extends Fragment {
         mTituloEventoET = view.findViewById(R.id.eventTitleET);
         mFechaEventoTV = view.findViewById(R.id.eventDate);
         mHoraEventoTV = view.findViewById(R.id.eventTime);
-        hora = LocalTime.now();
-
-        mHoraEventoTV.setText(" " + CalendarUtils.formatoTIempo(hora));
-        mFechaEventoTV.setText(" " + CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
-
-        selectedColor = "#ff0000";
 
         final info.androidhive.fontawesome.FontTextView imageColor1 = view.findViewById(R.id.iconColor1);
         final info.androidhive.fontawesome.FontTextView imageColor2 = view.findViewById(R.id.iconColor2);
@@ -50,7 +51,46 @@ public class NewEventFragment extends Fragment {
         final info.androidhive.fontawesome.FontTextView imageColor4 = view.findViewById(R.id.iconColor4);
         final info.androidhive.fontawesome.FontTextView imageColor5 = view.findViewById(R.id.iconColor5);
         final info.androidhive.fontawesome.FontTextView imageColor6 = view.findViewById(R.id.iconColor6);
+        hora = LocalTime.now();
 
+        final Bundle bundle = getArguments();
+
+        if(bundle != null){
+          isUpdate = true;
+          String title = bundle.getString("event");
+          mTituloEventoET.setText(title);
+          mFechaEventoTV.setText(CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
+          selectedColor = bundle.getString("color");
+          if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
+              imageColor1.setText(R.string.fa_check_circle_solid);
+          if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
+              imageColor1.setText(R.string.fa_circle);
+              imageColor2.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor2.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#038ED1")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor3.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#8362A7")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor4.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#4BB168")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor5.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#E86DA4")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor6.setText(R.string.fa_check_circle_solid);
+          }
+        }else{
+            mHoraEventoTV.setText(" " + CalendarUtils.formatoTIempo(hora));
+            mFechaEventoTV.setText(" " + CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
+        }
 
         view.findViewById(R.id.ViewColor1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +104,6 @@ public class NewEventFragment extends Fragment {
                 imageColor6.setText(R.string.fa_circle);
             }
         });
-
         view.findViewById(R.id.ViewColor2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +164,7 @@ public class NewEventFragment extends Fragment {
                 imageColor1.setText(R.string.fa_circle);
             }
         });
+
 
         view.findViewById(R.id.SaveEvent).setOnClickListener(new View.OnClickListener() {
             @Override

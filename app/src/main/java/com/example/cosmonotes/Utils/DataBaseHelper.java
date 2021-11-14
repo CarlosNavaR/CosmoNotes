@@ -108,6 +108,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_EVENTS, null, values);
     }
 
+    public void updateEvent(int id, String event){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_E2, event);
+        db.update(TABLE_EVENTS, values, "ID=?", new String[]{String.valueOf(id)});
+    }
+
+    public void deleteEvent(int id){
+        db = this.getWritableDatabase();
+        db.delete(TABLE_EVENTS, "ID=?", new String[]{String.valueOf(id)});
+    }
+
     public List<Event> getAllEvents(){
         db = this.getWritableDatabase();
         Cursor cursor = null;
@@ -119,6 +131,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 if (cursor.moveToFirst()){
                     do{
                         Event event = new Event();
+                        event.setId(cursor.getInt(cursor.getColumnIndex(COL_E1)));
                         event.setTitulo(cursor.getString(cursor.getColumnIndex(COL_E2)));
                         event.setDate(cursor.getString(cursor.getColumnIndex(COL_E3)));
                         event.setTime(cursor.getString(cursor.getColumnIndex(COL_E4)));

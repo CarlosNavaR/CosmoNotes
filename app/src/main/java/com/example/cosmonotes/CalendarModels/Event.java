@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Event {
+    public int Id;
     public String titulo;
     private LocalDate fecha;
     private LocalTime hora;
@@ -62,5 +63,11 @@ public class Event {
         this.colorNote = colorNote;
     }
 
+    public int getId() {
+        return Id;
+    }
 
+    public void setId(int id) {
+        Id = id;
+    }
 }
