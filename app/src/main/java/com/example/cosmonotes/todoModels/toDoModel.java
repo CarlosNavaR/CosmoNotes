@@ -1,8 +1,25 @@
 package com.example.cosmonotes.todoModels;
 
 public class toDoModel {
+    private int idItem;
     private String task;
     private int status, group;
+
+    public toDoModel(){}
+
+    public toDoModel(String task, int status, int group) {
+        this.task = task;
+        this.status = status;
+        this.group = group;
+    }
+
+    public int getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(int idItem) {
+        this.idItem = idItem;
+    }
 
     public String getTask() {
         return task;

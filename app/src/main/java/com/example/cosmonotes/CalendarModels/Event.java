@@ -8,27 +8,19 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Event {
-    public int Id;
-    public String titulo;
+    private int Id;
+    private String titulo;
     private LocalDate fecha;
     private LocalTime hora;
-    private String colorNote;
-
-    public static ArrayList<Event> eventsForDate(LocalDate date, DataBaseHelper db){
-        ArrayList<Event> eventos = new ArrayList<>();
-        for (Event event : db.getAllEvents()){
-            if (event.getDate().equals(date))
-                eventos.add(event);
-        }
-        return eventos;
-    }
+    private String colorEvent;
 
     public Event(){}
+
     public Event(String titulo, LocalDate fecha, LocalTime hora, String selectedCOlor){
         this.titulo = titulo;
         this.fecha = fecha;
         this.hora = hora;
-        this.colorNote = selectedCOlor;
+        this.colorEvent = selectedCOlor;
     }
 
     public String getTitulo() {
@@ -55,12 +47,12 @@ public class Event {
         this.hora = LocalTime.parse(time);
     }
 
-    public String getColorNote() {
-        return colorNote;
+    public String getColorEvent() {
+        return colorEvent;
     }
 
-    public void setColorNote(String colorNote) {
-        this.colorNote = colorNote;
+    public void setColorEvent(String colorEvent) {
+        this.colorEvent = colorEvent;
     }
 
     public int getId() {

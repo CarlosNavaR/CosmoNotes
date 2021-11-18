@@ -134,7 +134,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getLastLocation(){
-        @SuppressLint("MissingPermission") Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
+        @SuppressLint("MissingPermission")
+        Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
         locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -162,7 +163,7 @@ public class HomeFragment extends Fragment {
         locationTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "On failure " + e.getLocalizedMessage());
+                Log.d(TAG, "On failure " + e.getLocalizedMessage());
             }
         });
     }

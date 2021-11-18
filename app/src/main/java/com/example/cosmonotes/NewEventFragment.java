@@ -44,6 +44,7 @@ public class NewEventFragment extends Fragment {
         mTituloEventoET = view.findViewById(R.id.eventTitleET);
         mFechaEventoTV = view.findViewById(R.id.eventDate);
         mHoraEventoTV = view.findViewById(R.id.eventTime);
+        selectedColor = "#F1524F";
 
         final info.androidhive.fontawesome.FontTextView imageColor1 = view.findViewById(R.id.iconColor1);
         final info.androidhive.fontawesome.FontTextView imageColor2 = view.findViewById(R.id.iconColor2);
@@ -165,13 +166,18 @@ public class NewEventFragment extends Fragment {
             }
         });
 
+        final boolean updateEvent = isUpdate;
 
         view.findViewById(R.id.SaveEvent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String TituloEvento = mTituloEventoET.getText().toString();
                 Event newEvent = new Event(TituloEvento, CalendarUtils.selectedDate, hora, selectedColor);
-                db.saveEvent(newEvent);
+
+                if(updateEvent)
+                    db.updateEvent(bundle.getInt("id"), newEvent);
+                else
+                    db.saveEvent(newEvent);
                 //Event.eventsList.add(newEvent);
 
                 ocultarTeclado();

@@ -91,7 +91,7 @@ public class homeActivity extends AppCompatActivity {
                                 break;
                             case R.id.Calendario:
                                 fragment = new CalendarFragment();
-                                break;
+                                break; 
                             case R.id.Notas:
                                 fragment = new NotesFragment();
                                 break;

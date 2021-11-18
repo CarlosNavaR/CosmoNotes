@@ -1,4 +1,5 @@
 package com.example.cosmonotes;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -6,12 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmonotes.Adapters.CalendarAdapter;
+import com.example.cosmonotes.CalendarModels.Event;
+import com.example.cosmonotes.CalendarModels.EventAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
+    private static final String TAG = "prueba";
     private final ArrayList<LocalDate> days;
     public final View parentView;
     public final TextView dayOfMonth;
@@ -30,6 +34,6 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View view)
     {
-        onItemListener.onItemClick(getAdapterPosition(), days.get(getAdapterPosition()));
+        onItemListener.onItemClick(getBindingAdapterPosition(), days.get(getBindingAdapterPosition()));
     }
 }

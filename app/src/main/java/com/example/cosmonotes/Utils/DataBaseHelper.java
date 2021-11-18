@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.cosmonotes.CalendarModels.Event;
+import com.example.cosmonotes.todoModels.groupModel;
+import com.example.cosmonotes.todoModels.toDoModel;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -104,14 +106,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(COL_E2, model.getTitulo());
         values.put(COL_E3, model.getDate().toString());
         values.put(COL_E4, model.getTime().toString());
-        values.put(COL_E5, model.getColorNote());
+        values.put(COL_E5, model.getColorEvent());
         db.insert(TABLE_EVENTS, null, values);
     }
 
-    public void updateEvent(int id, String event){
+    public void updateEvent(int id, Event event){
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_E2, event);
+        values.put(COL_E2, event.getTitulo());
+        values.put(COL_E5, event.getColorEvent());
         db.update(TABLE_EVENTS, values, "ID=?", new String[]{String.valueOf(id)});
     }
 
@@ -135,7 +138,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         event.setTitulo(cursor.getString(cursor.getColumnIndex(COL_E2)));
                         event.setDate(cursor.getString(cursor.getColumnIndex(COL_E3)));
                         event.setTime(cursor.getString(cursor.getColumnIndex(COL_E4)));
-                        event.setColorNote(cursor.getString(cursor.getColumnIndex(COL_E5)));
+                        event.setColorEvent(cursor.getString(cursor.getColumnIndex(COL_E5)));
                         modelEventList.add(event);
                     }while (cursor.moveToNext());
                 }
@@ -145,5 +148,118 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return modelEventList;
+    }
+
+    public void saveGroupToDo(groupModel groupModel){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_G2, groupModel.getTitleGroup());
+        values.put(COL_G3, 0);
+        db.insert(TABLE_GROUPS_TODO, null, values);
+    }
+
+    public void updateStatus(int id, int status){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_G3, status);
+        db.update(TABLE_GROUPS_TODO, values, "ID?", new String[]{String.valueOf(id)});
+    }
+
+    public List<groupModel> getAllGroupsTodo(){
+        db = this.getWritableDatabase();
+        Cursor cursor = null;
+        List<groupModel> modelGroupList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.query(TABLE_GROUPS_TODO, null, null, null, null, null, null);
+            if(cursor != null){
+                if (cursor.moveToFirst()){
+                    do{
+                        groupModel group = new groupModel();
+                        group.setIdGroup(cursor.getInt(cursor.getColumnIndex(COL_G1)));
+                        group.setTitleGroup(cursor.getString(cursor.getColumnIndex(COL_G2)));
+                        group.setStatus(ConvertIntToBoolean(cursor.getInt(cursor.getColumnIndex(COL_G3))));
+                        modelGroupList.add(group);
+                    }while (cursor.moveToNext());
+                }
+            }
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return modelGroupList;
+    }
+
+    public void saveItemToDo(toDoModel todo){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_I2, todo.getTask());
+        values.put(COL_I3, 0);
+        values.put(COL_I4, todo.getGroup());
+        db.insert(TABLE_ITEMS_TODO, null, values);
+    }
+
+    public void updateStatusItem(int id, int status){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_I3, status);
+        db.update(TABLE_ITEMS_TODO, values, "Id=?", new String[]{String.valueOf(id)});
+    }
+
+    public List<toDoModel> getAllItemsForGroup(int id){
+        db = this.getWritableDatabase();
+        Cursor cursor = null;
+        List<toDoModel> modelItemList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id+1), String.valueOf(0)});
+            if(cursor != null){
+                if (cursor.moveToFirst()){
+                    do{
+                        toDoModel item = new toDoModel();
+                        item.setIdItem(cursor.getInt(0));
+                        item.setTask(cursor.getString(1));
+                        item.setStatus(cursor.getInt(2));
+                        item.setGroup(cursor.getInt(3));
+                        modelItemList.add(item);
+                    }while (cursor.moveToNext());
+                }
+            }
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return modelItemList;
+    }
+
+
+    public List<toDoModel> getAllItemsCheckedForGroup(int id){
+        db = this.getWritableDatabase();
+        Cursor cursor = null;
+        List<toDoModel> modelCheckItemList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id+1), String.valueOf(1)});
+            if(cursor != null){
+                if (cursor.moveToFirst()){
+                    do{
+                        toDoModel item = new toDoModel();
+                        item.setIdItem(cursor.getInt(0));
+                        item.setTask(cursor.getString(1));
+                        item.setStatus(cursor.getInt(2));
+                        item.setGroup(cursor.getInt(3));
+                        modelCheckItemList.add(item);
+                    }while (cursor.moveToNext());
+                }
+            }
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return modelCheckItemList;
+    }
+
+    public boolean ConvertIntToBoolean(int num){
+        return num != 0;
     }
 }

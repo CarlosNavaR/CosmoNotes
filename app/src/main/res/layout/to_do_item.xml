@@ -13,6 +13,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
+                android:paddingEnd="0dp"
                 android:theme="@style/checkbox_theme"
                 android:text=""
                 android:background="@color/light_bg"/>

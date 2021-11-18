@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,16 @@ import com.example.cosmonotes.NewEventFragment;
 import com.example.cosmonotes.R;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
+    private static final String TAG = "GoogleActivity";
     private List<Event> mList;
     private Context context;
     private DataBaseHelper db;
     FragmentActivity activity;
-
 
     public EventAdapter(DataBaseHelper db, Context context, FragmentActivity activity){
         this.context = context;
@@ -47,7 +50,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Event event = mList.get(position);
         GradientDrawable gradientDrawable = (GradientDrawable) holder.LLTagColor.getBackground();
-        gradientDrawable.setColor(Color.parseColor(event.getColorNote()));
+        gradientDrawable.setColor(Color.parseColor(event.getColorEvent()));
         holder.eventCellTV.setText(event.getTitulo());
         holder.eventTimeCell.setText(CalendarUtils.formatoTIempo(event.getTime()));
     }
@@ -65,6 +68,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         notifyDataSetChanged();
     }
 
+    public List<Event> eventsForDate(LocalDate date, DataBaseHelper db){
+        List<Event> eventos = new ArrayList<>();
+        for (Event event : db.getAllEvents()){
+            if (event.getDate().equals(date))
+                eventos.add(event);
+        }
+        Log.d(TAG, "tamanio: " + eventos.size());
+        return eventos;
+    }
+
     public void deleteEvent(int position){
         Event event = mList.get(position);
         db.deleteEvent(event.getId());
@@ -80,11 +93,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         bundle.putString("event", event.getTitulo());
         bundle.putString("date", event.getDate().toString());
         bundle.putString("time", event.getTime().toString());
-        bundle.putString("color", event.getColorNote());
+        bundle.putString("color", event.getColorEvent());
 
         NewEventFragment eventFragment = new NewEventFragment();
         eventFragment.setArguments(bundle);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, eventFragment).commit();
+        notifyItemChanged(position);
     }
 
     @Override
