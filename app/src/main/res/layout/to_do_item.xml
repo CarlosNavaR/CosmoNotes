@@ -8,15 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/light_bg">
-            <CheckBox
-                android:id="@+id/cb_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="0dp"
-                android:theme="@style/checkbox_theme"
-                android:text=""
-                android:background="@color/light_bg"/>
+
+        <CheckBox
+            android:id="@+id/cb_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_bg"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/source_sans_pro"
+            android:padding="5dp"
+            android:text="Prueba para medir contenedor"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

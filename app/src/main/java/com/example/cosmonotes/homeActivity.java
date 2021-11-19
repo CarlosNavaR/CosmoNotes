@@ -99,6 +99,7 @@ public class homeActivity extends AppCompatActivity {
                                 fragment = new ToDoFragment();
                                 break;
                         }
+                        assert fragment != null;
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_Container,
                                         fragment).commit();
@@ -107,7 +108,16 @@ public class homeActivity extends AppCompatActivity {
     }
 
     public void newEvent(View view) {
+        //NewEventFragment.newInstance().show(getSupportFragmentManager(), NewEventFragment.TAG);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new NewEventFragment()).commit();
+    }
+
+    public void newGroup(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new NewGroupFragment()).commit();
+    }
+
+    public void CancelCreateGroup(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new ToDoFragment()).commit();
     }
 
     public void CancelCreateEvent(View view) {

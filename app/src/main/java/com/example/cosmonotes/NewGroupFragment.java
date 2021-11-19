@@ -1,14 +1,15 @@
 package com.example.cosmonotes;
 
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,38 +19,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.cosmonotes.CalendarModels.Event;
-import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
 import com.example.cosmonotes.Utils.DataBaseHelper;
+import com.example.cosmonotes.todoModels.groupModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.security.acl.Group;
 import java.time.LocalTime;
 
+public class NewGroupFragment extends BottomSheetDialogFragment {
+    public static final String TAG = "AddNewGroup";
 
-public class NewEventFragment extends BottomSheetDialogFragment {
-    public static final String TAG = "AddNewEvent";
-
-    private EditText mTituloEventoET;
-    private TextView mFechaEventoTV, mHoraEventoTV;
+    private EditText mTituloGroupET;
     private boolean isUpdate = false;
-    private LocalTime hora;
     private String selectedColor;
 
     private DataBaseHelper db;
 
-    public static NewEventFragment newInstance(){
-        return new NewEventFragment();
+    public static NewGroupFragment newInstance() {
+        return new NewGroupFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_event, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_new_group, container, false);;
 
         db = new DataBaseHelper(getActivity());
 
-        mTituloEventoET = view.findViewById(R.id.eventTitleET);
-        mFechaEventoTV = view.findViewById(R.id.eventDate);
-        mHoraEventoTV = view.findViewById(R.id.eventTime);
+        mTituloGroupET = view.findViewById(R.id.GroupTitleET);
         selectedColor = "#F1524F";
 
         final info.androidhive.fontawesome.FontTextView imageColor1 = view.findViewById(R.id.iconColor1);
@@ -58,47 +55,41 @@ public class NewEventFragment extends BottomSheetDialogFragment {
         final info.androidhive.fontawesome.FontTextView imageColor4 = view.findViewById(R.id.iconColor4);
         final info.androidhive.fontawesome.FontTextView imageColor5 = view.findViewById(R.id.iconColor5);
         final info.androidhive.fontawesome.FontTextView imageColor6 = view.findViewById(R.id.iconColor6);
-        hora = LocalTime.now();
 
         final Bundle bundle = getArguments();
 
         if(bundle != null){
-          isUpdate = true;
-          String title = bundle.getString("event");
-          String time = bundle.getString("time");
-          mTituloEventoET.setText(title);
-          mFechaEventoTV.setText(CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
-          selectedColor = bundle.getString("color");
-          mHoraEventoTV.setText(time);
-          if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
-              imageColor1.setText(R.string.fa_check_circle_solid);
-          if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
-              imageColor1.setText(R.string.fa_circle);
-              imageColor2.setText(R.string.fa_check_circle_solid);
-          }
-          if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
-            imageColor1.setText(R.string.fa_circle);
-            imageColor2.setText(R.string.fa_check_circle_solid);
-          }
-          if(Color.parseColor(selectedColor) == Color.parseColor("#038ED1")){
-            imageColor1.setText(R.string.fa_circle);
-            imageColor3.setText(R.string.fa_check_circle_solid);
-          }
-          if(Color.parseColor(selectedColor) == Color.parseColor("#8362A7")){
-            imageColor1.setText(R.string.fa_circle);
-            imageColor4.setText(R.string.fa_check_circle_solid);
-          }
-          if(Color.parseColor(selectedColor) == Color.parseColor("#4BB168")){
-            imageColor1.setText(R.string.fa_circle);
-            imageColor5.setText(R.string.fa_check_circle_solid);
-          }
-          if(Color.parseColor(selectedColor) == Color.parseColor("#E86DA4")){
-            imageColor1.setText(R.string.fa_circle);
-            imageColor6.setText(R.string.fa_check_circle_solid);
-          }
-        }else{
-            mHoraEventoTV.setText(" " + CalendarUtils.formatoTIempo(hora));
-            mFechaEventoTV.setText(" " + CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
+            isUpdate = true;
+            String title = bundle.getString("group");
+            mTituloGroupET.setText(title);
+            selectedColor = bundle.getString("color");
+
+            if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
+                imageColor1.setText(R.string.fa_check_circle_solid);
+            if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
+                imageColor1.setText(R.string.fa_circle);
+                imageColor2.setText(R.string.fa_check_circle_solid);
+            }
+            if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
+                imageColor1.setText(R.string.fa_circle);
+                imageColor2.setText(R.string.fa_check_circle_solid);
+            }
+            if(Color.parseColor(selectedColor) == Color.parseColor("#038ED1")){
+                imageColor1.setText(R.string.fa_circle);
+                imageColor3.setText(R.string.fa_check_circle_solid);
+            }
+            if(Color.parseColor(selectedColor) == Color.parseColor("#8362A7")){
+                imageColor1.setText(R.string.fa_circle);
+                imageColor4.setText(R.string.fa_check_circle_solid);
+            }
+            if(Color.parseColor(selectedColor) == Color.parseColor("#4BB168")){
+                imageColor1.setText(R.string.fa_circle);
+                imageColor5.setText(R.string.fa_check_circle_solid);
+            }
+            if(Color.parseColor(selectedColor) == Color.parseColor("#E86DA4")){
+                imageColor1.setText(R.string.fa_circle);
+                imageColor6.setText(R.string.fa_check_circle_solid);
+            }
         }
 
         view.findViewById(R.id.ViewColor1).setOnClickListener(new View.OnClickListener() {
@@ -174,30 +165,29 @@ public class NewEventFragment extends BottomSheetDialogFragment {
             }
         });
 
-        final boolean updateEvent = isUpdate;
+        final boolean updateGroup = isUpdate;
 
-        view.findViewById(R.id.SaveEvent).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.SaveGroup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String TituloEvento = mTituloEventoET.getText().toString();
-                Event newEvent = new Event(TituloEvento, CalendarUtils.selectedDate, hora, selectedColor);
+                String TituloGroup = mTituloGroupET.getText().toString();
+                groupModel newGroup = new groupModel(TituloGroup, selectedColor);
 
-                if(updateEvent)
-                    db.updateEvent(bundle.getInt("id"), newEvent);
+                if(updateGroup)
+                    db.updateGroup(bundle.getInt("id"), newGroup);
                 else
-                    db.saveEvent(newEvent);
-                //Event.eventsList.add(newEvent);
+                    db.saveGroupToDo(newGroup);
 
                 dismiss();
                 ocultarTeclado();
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
-                trans.replace(R.id.fragment_Container, new CalendarFragment());
+                trans.replace(R.id.fragment_Container, new ToDoFragment());
                 trans.commit();
             }
         });
-
         return view;
     }
+
 
     // Se usa para ocultar el teclado antes de crar el evento y no modifique los elementos
     public void ocultarTeclado(){
@@ -207,12 +197,5 @@ public class NewEventFragment extends BottomSheetDialogFragment {
             InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
             input.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
         }
-    }
-
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if(getActivity() instanceof OnDialogCloseListner)
-            ((OnDialogCloseListner)getActivity()).onDialogClose(dialog);
     }
 }

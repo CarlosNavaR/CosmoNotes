@@ -9,10 +9,9 @@ public class groupModel {
 
     public groupModel(){}
 
-    public groupModel(String titleGroup, boolean status, int idUser) {
+    public groupModel(String titleGroup, String colorGroup) {
         this.titleGroup = titleGroup;
-        this.status = status;
-        this.idUser = idUser;
+        this.colorGroup = colorGroup;
     }
 
     public int getIdGroup() {

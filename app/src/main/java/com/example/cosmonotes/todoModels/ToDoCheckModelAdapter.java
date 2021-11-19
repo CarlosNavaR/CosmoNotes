@@ -1,6 +1,9 @@
 package com.example.cosmonotes.todoModels;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +46,9 @@ public class ToDoCheckModelAdapter extends RecyclerView.Adapter<ToDoCheckModelAd
         final toDoModel ToDoItem = mListItemsChecked.get(position);
 
         holder.ItemToDoCB.setText(ToDoItem.getTask());
+        holder.ItemToDoCB.setTextColor(Integer.parseInt(String.valueOf(Color.parseColor("#808080"))));
         holder.ItemToDoCB.setChecked(db.ConvertIntToBoolean(ToDoItem.getStatus()));
+        holder.ItemToDoCB.setPaintFlags(holder.ItemToDoCB.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.bind(ToDoItem);
     }
 

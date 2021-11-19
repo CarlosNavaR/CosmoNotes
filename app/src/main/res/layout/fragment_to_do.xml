@@ -37,6 +37,7 @@
             android:gravity="center"
             android:text="@string/fa_plus_solid"
             android:textAlignment="center"
+            android:onClick="newGroup"
             android:textColor="@color/btn_Azul"
             android:textSize="20sp"
             app:solid_icon="true"

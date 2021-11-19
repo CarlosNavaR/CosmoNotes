@@ -42,7 +42,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_G1 = "Id";
     private static final String COL_G2 = "Title";
     private static final String COL_G3 = "Status";
-    private static final String COL_G4 = "IdUser";
+    private static final String COL_G4 = "Category";
 
     private static final String TABLE_ITEMS_TODO = "ToDo_Items";
     private static final String COL_I1 = "Id";
@@ -67,7 +67,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String GROUOPTODO_TABLE_CREATE = "create table " + TABLE_GROUPS_TODO + " ("
             + COL_G1 + " integer primary key autoincrement, "
             + COL_G2 + " text not null, "
-            + COL_G3 + " integer not null);";
+            + COL_G3 + " integer not null,"
+            + COL_G4 + " text not null);";
 
     private static final String ITEMSTODO_TABLE_CREATE = "create table " + TABLE_ITEMS_TODO + " ("
             + COL_I1 + " integer primary key autoincrement, "
@@ -155,7 +156,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COL_G2, groupModel.getTitleGroup());
         values.put(COL_G3, 0);
+        values.put(COL_G4, groupModel.getColorGroup());
         db.insert(TABLE_GROUPS_TODO, null, values);
+    }
+
+    public void updateGroup(int id, groupModel group){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_G2, group.getTitleGroup());
+        values.put(COL_G4, group.getColorGroup());
+        db.update(TABLE_EVENTS, values, "ID=?", new String[]{String.valueOf(id)});
     }
 
     public void updateStatus(int id, int status){
@@ -179,6 +189,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         group.setIdGroup(cursor.getInt(cursor.getColumnIndex(COL_G1)));
                         group.setTitleGroup(cursor.getString(cursor.getColumnIndex(COL_G2)));
                         group.setStatus(ConvertIntToBoolean(cursor.getInt(cursor.getColumnIndex(COL_G3))));
+                        group.setColorGroup(cursor.getString(cursor.getColumnIndex(COL_G4)));
                         modelGroupList.add(group);
                     }while (cursor.moveToNext());
                 }

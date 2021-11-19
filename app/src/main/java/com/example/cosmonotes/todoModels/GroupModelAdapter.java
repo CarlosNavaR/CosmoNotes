@@ -54,16 +54,20 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         final groupModel model = mList.get(position);
 
         holder.GroupTitleTV.setText(model.getTitleGroup());
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.ColorCategoryLL.getBackground();
+        gradientDrawable.setColor(Color.parseColor(model.getColorGroup()));
         mListItems = db.getAllItemsForGroup(position);
         mListItemsCheck = db.getAllItemsCheckedForGroup(position);
 
         if(model.getStatus() == false){
             holder.IconGroupArrowFTV.setText(R.string.fa_caret_down_solid);
+            holder.ContainerButtonAddItem.setVisibility(View.GONE);
             holder.nestedItemsRV.setVisibility(View.GONE);
             holder.nestedItemsCheckedRV.setVisibility(View.GONE);
             holder.GroupSeparatorLL.setVisibility(View.GONE);
         }else{
             holder.IconGroupArrowFTV.setText(R.string.fa_caret_up_solid);
+            holder.ContainerButtonAddItem.setVisibility(View.VISIBLE);
             holder.nestedItemsRV.setVisibility(View.VISIBLE);
             holder.nestedItemsCheckedRV.setVisibility(View.VISIBLE);
             holder.GroupSeparatorLL.setVisibility(View.VISIBLE);
@@ -133,6 +137,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         RecyclerView nestedItemsRV;
         RecyclerView nestedItemsCheckedRV;
         LinearLayout ColorCategoryLL;
+        LinearLayout ContainerButtonAddItem;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -142,6 +147,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
             nestedItemsRV = itemView.findViewById(R.id.nested_rv);
             nestedItemsCheckedRV = itemView.findViewById(R.id.nested_rv_done);
             ColorCategoryLL = itemView.findViewById(R.id.ColorCategory);
+            ContainerButtonAddItem = itemView.findViewById(R.id.btnAddNewToDo);
         }
     }
 }
