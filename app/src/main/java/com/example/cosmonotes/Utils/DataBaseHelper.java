@@ -201,12 +201,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return modelGroupList;
     }
 
-    public void saveItemToDo(toDoModel todo){
+    public void saveItemToDo(String title, int IdGroup){
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_I2, todo.getTask());
+        values.put(COL_I2, title);
         values.put(COL_I3, 0);
-        values.put(COL_I4, todo.getGroup());
+        values.put(COL_I4, IdGroup);
         db.insert(TABLE_ITEMS_TODO, null, values);
     }
 

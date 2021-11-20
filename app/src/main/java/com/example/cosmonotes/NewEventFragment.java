@@ -190,9 +190,6 @@ public class NewEventFragment extends BottomSheetDialogFragment {
 
                 dismiss();
                 ocultarTeclado();
-                FragmentTransaction trans = getFragmentManager().beginTransaction();
-                trans.replace(R.id.fragment_Container, new CalendarFragment());
-                trans.commit();
             }
         });
 

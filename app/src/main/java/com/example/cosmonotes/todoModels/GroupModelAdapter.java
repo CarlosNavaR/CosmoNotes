@@ -1,26 +1,34 @@
 package com.example.cosmonotes.todoModels;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmonotes.CalendarModels.EventAdapter;
+import com.example.cosmonotes.NewItemFragment;
 import com.example.cosmonotes.R;
 import com.example.cosmonotes.Utils.DataBaseHelper;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.MyViewHolder> {
+    public static final String TAG = "AddNewItem";
     private List<groupModel> mList;
     private List<toDoModel> mListItems;
     private List<toDoModel> mListItemsCheck;
@@ -86,6 +94,17 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
                 notifyItemChanged(position);
             }
         });
+
+        holder.newItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewItemFragment newItemFragment = NewItemFragment.newInstance();
+                newItemFragment.setIdGroup(mList.get(position).getIdGroup());
+                newItemFragment.show(activity.getSupportFragmentManager(), NewItemFragment.TAG);
+                notifyDataSetChanged();
+            }
+
+        });
     }
 
     public void setGroups(List<groupModel> mList){
@@ -138,6 +157,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         RecyclerView nestedItemsCheckedRV;
         LinearLayout ColorCategoryLL;
         LinearLayout ContainerButtonAddItem;
+        TextView newItem;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -148,6 +168,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
             nestedItemsCheckedRV = itemView.findViewById(R.id.nested_rv_done);
             ColorCategoryLL = itemView.findViewById(R.id.ColorCategory);
             ContainerButtonAddItem = itemView.findViewById(R.id.btnAddNewToDo);
+            newItem = itemView.findViewById(R.id.newItem);
         }
     }
 }

@@ -191,11 +191,11 @@ public class NewGroupFragment extends BottomSheetDialogFragment {
 
     // Se usa para ocultar el teclado antes de crar el evento y no modifique los elementos
     public void ocultarTeclado(){
-        View vieww = getActivity().getCurrentFocus();
-        if(vieww != null){
+        View view = getActivity().getCurrentFocus();
+        if(view != null){
             //Aquí esta la magia
             InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(Context.INPUT_METHOD_SERVICE));
-            input.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
+            input.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
