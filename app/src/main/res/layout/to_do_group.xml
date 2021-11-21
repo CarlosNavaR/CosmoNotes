@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/source_sans_pro"
-                    android:text="Agregar nuevo evento"
+                    android:text="+  Agregar nuevo evento"
                     android:textColor="#5F5F5F"
                     android:textSize="16sp"
                     android:typeface="normal" />

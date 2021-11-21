@@ -4,6 +4,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.cosmonotes.CalendarModels.Event;
+import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 import com.example.cosmonotes.todoModels.groupModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -178,7 +180,6 @@ public class NewGroupFragment extends BottomSheetDialogFragment {
                 else
                     db.saveGroupToDo(newGroup);
 
-                dismiss();
                 ocultarTeclado();
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
                 trans.replace(R.id.fragment_Container, new ToDoFragment());
@@ -198,4 +199,5 @@ public class NewGroupFragment extends BottomSheetDialogFragment {
             input.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
 }

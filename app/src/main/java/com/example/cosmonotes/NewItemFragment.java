@@ -56,6 +56,8 @@ public class NewItemFragment extends BottomSheetDialogFragment {
         final Bundle bundle = getArguments();
         if(bundle != null){
             isUpdate = true;
+            String task = bundle.getString("task");
+            mTituloItemET.setText(task);
         }
 
         final boolean updateItem = isUpdate;
@@ -64,7 +66,13 @@ public class NewItemFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 String tituloItem = mTituloItemET.getText().toString();
-                db.saveItemToDo(tituloItem, getIdGroup());
+
+                if(updateItem){
+                    toDoModel item = new toDoModel(tituloItem, 0,bundle.getInt("idGroup"));
+                    db.UpdateItemToDo(bundle.getInt("id"), item);
+                }
+                else
+                    db.saveItemToDo(tituloItem, getIdGroup());
                 dismiss();
                 ocultarTeclado();
                 FragmentTransaction trans = getFragmentManager().beginTransaction();

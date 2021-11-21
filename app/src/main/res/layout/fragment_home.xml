@@ -61,15 +61,16 @@
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_shape">
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="40dp">
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="40dp">
 
                 <LinearLayout
                     android:layout_width="362dp"
@@ -164,114 +165,124 @@
                 </LinearLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="362dp"
-                android:layout_height="94dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/ficha_calendario"
-                android:elevation="5dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="362dp"
+                    android:layout_height="94dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/ficha_calendario"
+                    android:elevation="5dp">
 
-                <TextView
-                    android:id="@+id/textViewCalendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="Calendario"
-                    android:textColor="@color/Morado"
-                    android:textSize="28sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.51" />
+                    <TextView
+                        android:id="@+id/textViewCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:fontFamily="@font/source_sans_pro_semibold"
+                        android:text="Calendario"
+                        android:textColor="@color/Morado"
+                        android:textSize="28sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.51" />
 
-                <info.androidhive.fontawesome.FontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="116dp"
-                    android:adjustViewBounds="true"
-                    android:text="@string/fa_calendar_alt"
-                    android:textColor="@color/icono_ficha_amarillo"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:solid_icon="true" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <info.androidhive.fontawesome.FontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="116dp"
+                        android:adjustViewBounds="true"
+                        android:text="@string/fa_calendar_alt"
+                        android:textColor="@color/icono_ficha_amarillo"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:solid_icon="true" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="362dp"
-                android:layout_height="94dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/ficha_notas"
-                android:elevation="5dp">
+                    <TextView
+                        android:id="@+id/eventsNumberTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="52dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.506" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/textViewNotes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="Notas"
-                    android:textColor="@color/Morado"
-                    android:textSize="28sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.51" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="362dp"
+                    android:layout_height="94dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/ficha_notas"
+                    android:elevation="5dp">
 
-                <info.androidhive.fontawesome.FontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="116dp"
-                    android:adjustViewBounds="true"
-                    android:text="@string/fa_calendar_week_solid"
-                    android:textColor="@color/icono_ficha_rojo"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:solid_icon="true" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/textViewNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:fontFamily="@font/source_sans_pro_semibold"
+                        android:text="Notas"
+                        android:textColor="@color/Morado"
+                        android:textSize="28sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.51" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="362dp"
-                android:layout_height="94dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/ficha_pendientes"
-                android:elevation="5dp">
+                    <info.androidhive.fontawesome.FontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="116dp"
+                        android:adjustViewBounds="true"
+                        android:text="@string/fa_calendar_week_solid"
+                        android:textColor="@color/icono_ficha_rojo"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:solid_icon="true" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/textViewTodo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="Pendientes"
-                    android:textColor="@color/Morado"
-                    android:textSize="28sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.51" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="362dp"
+                    android:layout_height="94dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/ficha_pendientes"
+                    android:elevation="5dp">
 
-                <info.androidhive.fontawesome.FontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="116dp"
-                    android:adjustViewBounds="true"
-                    android:text="@string/fa_calendar_check_solid"
-                    android:textColor="@color/icono_ficha_lila"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:solid_icon="true" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/textViewTodo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:fontFamily="@font/source_sans_pro_semibold"
+                        android:text="Pendientes"
+                        android:textColor="@color/Morado"
+                        android:textSize="28sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.51" />
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                    <info.androidhive.fontawesome.FontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="116dp"
+                        android:adjustViewBounds="true"
+                        android:text="@string/fa_calendar_check_solid"
+                        android:textColor="@color/icono_ficha_lila"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:solid_icon="true" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
 </LinearLayout>

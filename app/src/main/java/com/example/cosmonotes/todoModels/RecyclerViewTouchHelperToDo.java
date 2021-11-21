@@ -1,9 +1,8 @@
-package com.example.cosmonotes.CalendarModels;
+package com.example.cosmonotes.todoModels;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,19 +10,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cosmonotes.CalendarModels.EventAdapter;
 import com.example.cosmonotes.R;
-import com.example.cosmonotes.todoModels.GroupModelAdapter;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback {
     private static final String TAG = "GoogleActivity";
-    private EventAdapter adapter;
+    private GroupModelAdapter adapter;
 
-    public RecyclerViewTouchHelper(EventAdapter eventAdapter) {
+
+    public RecyclerViewTouchHelperToDo(GroupModelAdapter groupModelAdapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.adapter = eventAdapter;
+        this.adapter = groupModelAdapter;
     }
+
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -36,12 +37,27 @@ public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
         Log.d(TAG, "tamanio RVTH: " + adapter.getItemCount());
         if (direction == ItemTouchHelper.RIGHT){
             AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
-            builder.setTitle("Eliminar evento");
-            builder.setMessage("Desea eliminar este evento?");
+            builder.setTitle("Eliminar categoria");
+            builder.setMessage("Desea eliminar esta categoria?");
             builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    adapter.deleteEvent(position);
+                    int numero = GroupModelAdapter.getItems();
+                    if(numero == 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
+                        builder.setTitle("ERROR");
+                        builder.setMessage("No puedes eliminar una categoria con elementos");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapter.notifyItemChanged(position);
+                            }
+                        });
+                        AlertDialog dialogError = builder.create();
+                        dialogError.show();
+                    }
+                    else
+                        adapter.deleteGroup(position);
                 }
             });
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -53,9 +69,10 @@ public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
             AlertDialog dialog = builder.create();
             dialog.show();
         }else{
-            adapter.updateEvent(position);
+            adapter.modifyGroup(position);
         }
     }
+
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
