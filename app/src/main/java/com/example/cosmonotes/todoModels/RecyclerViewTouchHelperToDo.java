@@ -42,8 +42,9 @@ public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback 
             builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    int numero = GroupModelAdapter.getItems();
-                    if(numero == 0){
+                    int cantidadItems = GroupModelAdapter.getItems();
+                    int cantidadItemsChecked = GroupModelAdapter.getItemsChecked();
+                    if(cantidadItems != 0 || cantidadItemsChecked != 0){
                         AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
                         builder.setTitle("ERROR");
                         builder.setMessage("No puedes eliminar una categoria con elementos");

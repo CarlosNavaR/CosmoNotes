@@ -34,15 +34,19 @@ import java.util.List;
 public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.MyViewHolder> {
     public static final String TAG = "AddNewItem";
     private List<groupModel> mList;
-    private List<toDoModel> mListItems;
-    private List<toDoModel> mListItemsCheck;
+    private static List<toDoModel> mListItems;
+    private static List<toDoModel> mListItemsCheck;
     private static List<toDoModel> items = new ArrayList<>();
     private Context context;
     private DataBaseHelper db;
     FragmentActivity activity;
 
     public static int getItems() {
-        return items.size();
+        return mListItems.size();
+    }
+
+    public static int getItemsChecked() {
+        return mListItemsCheck.size();
     }
 
     public Context getContext() {
