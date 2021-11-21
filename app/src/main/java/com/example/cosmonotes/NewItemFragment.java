@@ -66,13 +66,15 @@ public class NewItemFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 String tituloItem = mTituloItemET.getText().toString();
-
+                int idGrouop = getIdGroup();
                 if(updateItem){
                     toDoModel item = new toDoModel(tituloItem, 0,bundle.getInt("idGroup"));
                     db.UpdateItemToDo(bundle.getInt("id"), item);
                 }
                 else
-                    db.saveItemToDo(tituloItem, getIdGroup());
+                    db.saveItemToDo(tituloItem, idGrouop);
+
+
                 dismiss();
                 ocultarTeclado();
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
