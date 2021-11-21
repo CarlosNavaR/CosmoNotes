@@ -12,17 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmonotes.CalendarModels.EventAdapter;
 import com.example.cosmonotes.R;
+import com.example.cosmonotes.Utils.DataBaseHelper;
+
+import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback {
     private static final String TAG = "GoogleActivity";
     private GroupModelAdapter adapter;
+    private DataBaseHelper db;
+    private List<toDoModel> mListItems;
+    private List<toDoModel> mListItemsCheck;
 
-
-    public RecyclerViewTouchHelperToDo(GroupModelAdapter groupModelAdapter) {
+    public RecyclerViewTouchHelperToDo(GroupModelAdapter groupModelAdapter, DataBaseHelper db) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = groupModelAdapter;
+        this.db = db;
     }
 
 
@@ -34,7 +40,10 @@ public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getBindingAdapterPosition();
-        Log.d(TAG, "tamanio RVTH: " + adapter.getItemCount());
+        mListItems = db.getAllItemsForGroup(position+1);
+        mListItemsCheck = db.getAllItemsCheckedForGroup(position);
+        Log.d(TAG, "tamanio RVTH: " +  mListItems.size() + " sd " + mListItemsCheck.size());
+
         if (direction == ItemTouchHelper.RIGHT){
             AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
             builder.setTitle("Eliminar categoria");
@@ -42,9 +51,7 @@ public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback 
             builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    int cantidadItems = GroupModelAdapter.getItems();
-                    int cantidadItemsChecked = GroupModelAdapter.getItemsChecked();
-                    if(cantidadItems != 0 || cantidadItemsChecked != 0){
+                    if(mListItems.size() != 0 || mListItemsCheck.size() != 0){
                         AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
                         builder.setTitle("ERROR");
                         builder.setMessage("No puedes eliminar una categoria con elementos");
@@ -58,7 +65,10 @@ public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback 
                         dialogError.show();
                     }
                     else
+                    {
                         adapter.deleteGroup(position);
+                        adapter.notifyItemRemoved(position);
+                    }
                 }
             });
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

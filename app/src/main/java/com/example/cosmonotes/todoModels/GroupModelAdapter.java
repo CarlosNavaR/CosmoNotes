@@ -34,20 +34,14 @@ import java.util.List;
 public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.MyViewHolder> {
     public static final String TAG = "AddNewItem";
     private List<groupModel> mList;
-    private static List<toDoModel> mListItems;
-    private static List<toDoModel> mListItemsCheck;
-    private static List<toDoModel> items = new ArrayList<>();
+    private List<toDoModel> mListItems;
+    private List<toDoModel> mListItemsCheck;
+    private List<toDoModel> items = new ArrayList<>();
     private Context context;
     private DataBaseHelper db;
     FragmentActivity activity;
 
-    public static int getItems() {
-        return mListItems.size();
-    }
 
-    public static int getItemsChecked() {
-        return mListItemsCheck.size();
-    }
 
     public Context getContext() {
         return context;
@@ -56,6 +50,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
     public void setContext(Context context) {
         this.context = context;
     }
+
 
     public GroupModelAdapter(DataBaseHelper db, Context context, FragmentActivity activity){
         this.context = context;
@@ -92,7 +87,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
             holder.nestedItemsRV.setVisibility(View.VISIBLE);
             holder.nestedItemsCheckedRV.setVisibility(View.VISIBLE);
             holder.GroupSeparatorLL.setVisibility(View.VISIBLE);
-            setRecyclerViewItems(holder,position);
+            setRecyclerViewItems(holder,position, db);
         }
 
         if(mListItems.size() == 0)
@@ -151,7 +146,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         notifyItemChanged(position);
     }
 
-    public void setRecyclerViewItems(MyViewHolder holder, int groupIndex){
+    public void setRecyclerViewItems(MyViewHolder holder, int groupIndex,DataBaseHelper db){
         ToDoModelAdapter adapter = new ToDoModelAdapter(db, context,activity);
         holder.nestedItemsRV.setLayoutManager(new LinearLayoutManager(context));
         holder.nestedItemsRV.setAdapter(adapter);
@@ -181,6 +176,14 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
 
         adapterCheck.setListItemsChecked(mListItemsCheck);
         adapterCheck.notifyDataSetChanged();
+    }
+
+    public int getItems() {
+        return mListItems.size();
+    }
+
+    public int getItemsChecked() {
+        return mListItemsCheck.size();
     }
 
     @Override
