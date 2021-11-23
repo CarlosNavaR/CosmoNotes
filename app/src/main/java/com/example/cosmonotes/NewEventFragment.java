@@ -1,12 +1,10 @@
 package com.example.cosmonotes;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -18,16 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.cosmonotes.CalendarModels.Event;
-import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
 import com.example.cosmonotes.Utils.DataBaseHelper;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.time.LocalTime;
 
 
-public class NewEventFragment extends BottomSheetDialogFragment {
-    public static final String TAG = "AddNewEvent";
-
+public class NewEventFragment extends Fragment {
     private EditText mTituloEventoET;
     private TextView mFechaEventoTV, mHoraEventoTV;
     private boolean isUpdate = false;
@@ -63,39 +57,37 @@ public class NewEventFragment extends BottomSheetDialogFragment {
         final Bundle bundle = getArguments();
 
         if(bundle != null){
-            isUpdate = true;
-            String title = bundle.getString("event");
-            String time = bundle.getString("time");
-            mTituloEventoET.setText(title);
-            mFechaEventoTV.setText(CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
-            selectedColor = bundle.getString("color");
-            mHoraEventoTV.setText(time);
-            if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
-                imageColor1.setText(R.string.fa_check_circle_solid);
-            if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
-                imageColor1.setText(R.string.fa_circle);
-                imageColor2.setText(R.string.fa_check_circle_solid);
-            }
-            if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
-                imageColor1.setText(R.string.fa_circle);
-                imageColor2.setText(R.string.fa_check_circle_solid);
-            }
-            if(Color.parseColor(selectedColor) == Color.parseColor("#038ED1")){
-                imageColor1.setText(R.string.fa_circle);
-                imageColor3.setText(R.string.fa_check_circle_solid);
-            }
-            if(Color.parseColor(selectedColor) == Color.parseColor("#8362A7")){
-                imageColor1.setText(R.string.fa_circle);
-                imageColor4.setText(R.string.fa_check_circle_solid);
-            }
-            if(Color.parseColor(selectedColor) == Color.parseColor("#4BB168")){
-                imageColor1.setText(R.string.fa_circle);
-                imageColor5.setText(R.string.fa_check_circle_solid);
-            }
-            if(Color.parseColor(selectedColor) == Color.parseColor("#E86DA4")){
-                imageColor1.setText(R.string.fa_circle);
-                imageColor6.setText(R.string.fa_check_circle_solid);
-            }
+          isUpdate = true;
+          String title = bundle.getString("event");
+          mTituloEventoET.setText(title);
+          mFechaEventoTV.setText(CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
+          selectedColor = bundle.getString("color");
+          if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
+              imageColor1.setText(R.string.fa_check_circle_solid);
+          if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
+              imageColor1.setText(R.string.fa_circle);
+              imageColor2.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#FEC627")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor2.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#038ED1")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor3.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#8362A7")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor4.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#4BB168")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor5.setText(R.string.fa_check_circle_solid);
+          }
+          if(Color.parseColor(selectedColor) == Color.parseColor("#E86DA4")){
+            imageColor1.setText(R.string.fa_circle);
+            imageColor6.setText(R.string.fa_check_circle_solid);
+          }
         }else{
             mHoraEventoTV.setText(" " + CalendarUtils.formatoTIempo(hora));
             mFechaEventoTV.setText(" " + CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
@@ -194,6 +186,7 @@ public class NewEventFragment extends BottomSheetDialogFragment {
                 trans.commit();
             }
         });
+
         return view;
     }
 
@@ -206,4 +199,5 @@ public class NewEventFragment extends BottomSheetDialogFragment {
             input.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
         }
     }
+
 }
