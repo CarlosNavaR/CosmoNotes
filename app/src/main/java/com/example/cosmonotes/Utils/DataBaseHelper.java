@@ -1,6 +1,5 @@
 package com.example.cosmonotes.Utils;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -43,7 +42,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_G1 = "Id";
     private static final String COL_G2 = "Title";
     private static final String COL_G3 = "Status";
-    private static final String COL_G4 = "Category";
+    private static final String COL_G4 = "IdUser";
 
     private static final String TABLE_ITEMS_TODO = "ToDo_Items";
     private static final String COL_I1 = "Id";
@@ -68,8 +67,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String GROUOPTODO_TABLE_CREATE = "create table " + TABLE_GROUPS_TODO + " ("
             + COL_G1 + " integer primary key autoincrement, "
             + COL_G2 + " text not null, "
-            + COL_G3 + " integer not null,"
-            + COL_G4 + " text not null);";
+            + COL_G3 + " integer not null);";
 
     private static final String ITEMSTODO_TABLE_CREATE = "create table " + TABLE_ITEMS_TODO + " ("
             + COL_I1 + " integer primary key autoincrement, "
@@ -98,7 +96,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Operaciones para registros de la tabla de eventos
+    public void newUser(){
+
+    }
 
     public void saveEvent(Event model){
         db = this.getWritableDatabase();
@@ -123,7 +123,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_EVENTS, "ID=?", new String[]{String.valueOf(id)});
     }
 
-    @SuppressLint("Range")
     public List<Event> getAllEvents(){
         db = this.getWritableDatabase();
         Cursor cursor = null;
@@ -151,23 +150,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return modelEventList;
     }
 
-    // Operaciones para registros de la tabla de grupos (pendientes)
-
     public void saveGroupToDo(groupModel groupModel){
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_G2, groupModel.getTitleGroup());
         values.put(COL_G3, 0);
-        values.put(COL_G4, groupModel.getColorGroup());
         db.insert(TABLE_GROUPS_TODO, null, values);
-    }
-
-    public void updateGroup(int id, groupModel group){
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COL_G2, group.getTitleGroup());
-        values.put(COL_G4, group.getColorGroup());
-        db.update(TABLE_GROUPS_TODO, values, "ID=?", new String[]{String.valueOf(id)});
     }
 
     public void updateStatus(int id, int status){
@@ -177,7 +165,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_GROUPS_TODO, values, "ID?", new String[]{String.valueOf(id)});
     }
 
-    @SuppressLint("Range")
     public List<groupModel> getAllGroupsTodo(){
         db = this.getWritableDatabase();
         Cursor cursor = null;
@@ -192,7 +179,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         group.setIdGroup(cursor.getInt(cursor.getColumnIndex(COL_G1)));
                         group.setTitleGroup(cursor.getString(cursor.getColumnIndex(COL_G2)));
                         group.setStatus(ConvertIntToBoolean(cursor.getInt(cursor.getColumnIndex(COL_G3))));
-                        group.setColorGroup(cursor.getString(cursor.getColumnIndex(COL_G4)));
                         modelGroupList.add(group);
                     }while (cursor.moveToNext());
                 }
@@ -204,19 +190,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return modelGroupList;
     }
 
-    public void RemoveGroup(int id){
-        db = this.getWritableDatabase();
-        db.delete(TABLE_GROUPS_TODO, "ID=?", new String[]{String.valueOf(id)});
-    }
-
-    // Operaciones para registros de la tabla de items de grupos (Pendientes)
-
-    public void saveItemToDo(String title, int IdGroup){
+    public void saveItemToDo(toDoModel todo){
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_I2, title);
+        values.put(COL_I2, todo.getTask());
         values.put(COL_I3, 0);
-        values.put(COL_I4, IdGroup);
+        values.put(COL_I4, todo.getGroup());
         db.insert(TABLE_ITEMS_TODO, null, values);
     }
 
@@ -233,7 +212,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         List<toDoModel> modelItemList = new ArrayList<>();
         db.beginTransaction();
         try{
-            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id), String.valueOf(0)});
+            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id+1), String.valueOf(0)});
             if(cursor != null){
                 if (cursor.moveToFirst()){
                     do{
@@ -253,13 +232,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return modelItemList;
     }
 
+
     public List<toDoModel> getAllItemsCheckedForGroup(int id){
         db = this.getWritableDatabase();
         Cursor cursor = null;
         List<toDoModel> modelCheckItemList = new ArrayList<>();
         db.beginTransaction();
         try{
-            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id), String.valueOf(1)});
+            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id+1), String.valueOf(1)});
             if(cursor != null){
                 if (cursor.moveToFirst()){
                     do{
@@ -278,21 +258,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return modelCheckItemList;
     }
-
-    public void UpdateItemToDo(int id, toDoModel toDoModel){
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COL_I2, toDoModel.getTask());
-        db.update(TABLE_ITEMS_TODO, values, "ID=?", new String[]{String.valueOf(id)});
-    }
-
-    public void RemoveItemList(int id){
-        db = this.getWritableDatabase();
-        db.delete(TABLE_ITEMS_TODO, "ID=?", new String[]{String.valueOf(id)});
-
-    }
-
-    // Clase para convertir de entero a booleano para actualizar status de elementos
 
     public boolean ConvertIntToBoolean(int num){
         return num != 0;
