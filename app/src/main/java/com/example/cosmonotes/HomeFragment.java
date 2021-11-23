@@ -2,6 +2,7 @@ package com.example.cosmonotes;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -74,10 +75,14 @@ public class HomeFragment extends Fragment {
     private SimpleDateFormat dateFormat;
     private String date;
 
+    private Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        context = inflater.getContext();
+
         geocoder = new Geocoder(view.getContext(), Locale.getDefault());
 
         mWeatherTextView = view.findViewById(R.id.textviewWeather);
@@ -87,7 +92,7 @@ public class HomeFragment extends Fragment {
         mTextFecha = view.findViewById(R.id.text_fecha);
         mUserName = view.findViewById(R.id.textUserName);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.getContext());
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
         Locale espanol = new Locale("es","ES");
         dateFormat = new SimpleDateFormat("EEEE, d MMM ", espanol);
@@ -95,14 +100,14 @@ public class HomeFragment extends Fragment {
         date = dateFormat.format(fecha);
         mTextFecha.setText(date);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(view.getContext());
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(context);
         if(signInAccount != null){
             mProfileUserImgView.setImageURI(Uri.parse(String.valueOf(signInAccount.getPhotoUrl())));
             Picasso.get().load(signInAccount.getPhotoUrl()).placeholder(R.drawable.ic_launcher_background).into(mProfileUserImgView);
             mUserName.setText(upperCaseFirst(signInAccount.getDisplayName()));
         }
 
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             getLastLocation();
         }
 
@@ -169,7 +174,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getWeather(){
-        RequestQueue queue = Volley.newRequestQueue(getView().getContext());
+        RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest string = new StringRequest(Request.Method.GET, ApiUrl, new Response.Listener<String>() {
             public void onResponse(String response) {
                 //Toast.makeText(getView().getContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
@@ -188,8 +193,8 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "Icono " + icon);
 
                     String IconDrawable = "w" + icon;
-                    int id = getResources().getIdentifier(IconDrawable, "drawable", getContext().getPackageName());
-                    Drawable drawable = getResources().getDrawable(id);
+                    int id = context.getResources().getIdentifier(IconDrawable, "drawable", context.getPackageName());
+                    Drawable drawable = context.getResources().getDrawable(id);
                     mIconWeatherImgView.setBackground(drawable);
 
                     mCityTextView.setText(Ciudad);
