@@ -1,6 +1,11 @@
 package com.example.cosmonotes.todoModels;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,13 +48,48 @@ public class ToDoCheckModelAdapter extends RecyclerView.Adapter<ToDoCheckModelAd
         final toDoModel ToDoItem = mListItemsChecked.get(position);
 
         holder.ItemToDoCB.setText(ToDoItem.getTask());
+        holder.ItemToDoCB.setTextColor(Integer.parseInt(String.valueOf(Color.parseColor("#808080"))));
         holder.ItemToDoCB.setChecked(db.ConvertIntToBoolean(ToDoItem.getStatus()));
+        holder.ItemToDoCB.setPaintFlags(holder.ItemToDoCB.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.OperacionesItem.setText(R.string.fa_trash_solid);
+        holder.OperacionesItem.setTextColor(activity.getResources().getColor(R.color.eventoRojo));
+
+        holder.OperacionesItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Advertencia");
+                builder.setMessage("Esta seguro que desea eliminar esta tarea?");
+                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DeleteItemChecked(position);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notifyItemChanged(position);
+                    }
+                });
+                AlertDialog dialogError = builder.create();
+                dialogError.show();
+            }
+        });
+
         holder.bind(ToDoItem);
     }
 
     public void setListItemsChecked(List<toDoModel> mListItemsChecked){
         this.mListItemsChecked = mListItemsChecked;
         notifyDataSetChanged();
+    }
+
+    public void DeleteItemChecked(int position){
+        toDoModel item = mListItemsChecked.get(position);
+        db.RemoveItemList(item.getIdItem());
+        mListItemsChecked.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
@@ -69,10 +109,11 @@ public class ToDoCheckModelAdapter extends RecyclerView.Adapter<ToDoCheckModelAd
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private CheckBox ItemToDoCB;
-
+        private info.androidhive.fontawesome.FontTextView OperacionesItem;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             ItemToDoCB = itemView.findViewById(R.id.cb_item);
+            OperacionesItem = itemView.findViewById(R.id.OperacionesItemsFTV);
         }
 
         void bind(toDoModel s) {
@@ -85,7 +126,7 @@ public class ToDoCheckModelAdapter extends RecyclerView.Adapter<ToDoCheckModelAd
                         db.updateStatusItem(s.getIdItem(), 0);
                         //db.updateStatusItem(s.getIdItem(), 1);
                     }
-                  if(callback != null) callback.onCheckedChanged(s.getTask(), isChecked);
+                    if(callback != null) callback.onCheckedChanged(s.getTask(), isChecked);
                 }
             });
         }

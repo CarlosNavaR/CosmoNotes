@@ -1,8 +1,10 @@
 package com.example.cosmonotes;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,14 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
+import com.example.cosmonotes.CalendarModels.RecyclerViewTouchHelper;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 import com.example.cosmonotes.todoModels.GroupModelAdapter;
+import com.example.cosmonotes.todoModels.RecyclerViewTouchHelperToDo;
 import com.example.cosmonotes.todoModels.groupModel;
 import com.example.cosmonotes.todoModels.toDoModel;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-public class ToDoFragment extends Fragment {
+public class ToDoFragment extends Fragment  implements OnDialogCloseListner {
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewItems;
     private DataBaseHelper db;
@@ -33,13 +40,6 @@ public class ToDoFragment extends Fragment {
         db = new DataBaseHelper(getActivity());
         adapter = new GroupModelAdapter(db, getContext(),getActivity());
 
-        /*
-        toDoModel td = new toDoModel();
-        td.setTask("Tarea 5");
-        td.setGroup(1);
-        db.saveItemToDo(td);
-        */
-
         setGroupAdapter();
         return view;
     }
@@ -51,5 +51,15 @@ public class ToDoFragment extends Fragment {
 
         mList = db.getAllGroupsTodo();
         adapter.setGroups(mList);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelperToDo(adapter, db, mList));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    @Override
+    public void onDialogClose(DialogInterface dialogInterface) {
+        mList = db.getAllGroupsTodo();
+        Collections.reverse(mList);
+        adapter.setGroups(mList);
+        adapter.notifyDataSetChanged();
     }
 }

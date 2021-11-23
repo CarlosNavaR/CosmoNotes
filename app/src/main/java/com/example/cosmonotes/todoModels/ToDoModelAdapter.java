@@ -1,5 +1,6 @@
 package com.example.cosmonotes.todoModels;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmonotes.CalendarModels.EventAdapter;
+import com.example.cosmonotes.NewItemFragment;
 import com.example.cosmonotes.R;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 
@@ -33,8 +35,8 @@ public class ToDoModelAdapter extends RecyclerView.Adapter<ToDoModelAdapter.MyVi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.to_do_item , parent , false);
-        return new MyViewHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.to_do_item , parent , false);
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -44,12 +46,38 @@ public class ToDoModelAdapter extends RecyclerView.Adapter<ToDoModelAdapter.MyVi
         holder.ItemToDoCB.setText(ToDoItem.getTask());
         holder.ItemToDoCB.setChecked(db.ConvertIntToBoolean(ToDoItem.getStatus()));
 
+        holder.OperacionesItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                modifyItem(position);
+            }
+        });
         holder.bind(ToDoItem);
     }
 
-
     public void setItems(List<toDoModel> mList){
         this.mList = mList;
+        notifyDataSetChanged();
+    }
+
+    public void DeleteItem(int position){
+        toDoModel item = mList.get(position);
+        db.RemoveItemList(item.getIdItem());
+        mList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void modifyItem(int position){
+        toDoModel item = mList.get(position);
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("id", item.getIdItem());
+        bundle.putString("task",item.getTask());
+        bundle.putInt("idGroup",item.getGroup());
+
+        NewItemFragment newItemFragment = NewItemFragment.newInstance();
+        newItemFragment.setArguments(bundle);
+        newItemFragment.show(activity.getSupportFragmentManager(), NewItemFragment.TAG);
         notifyDataSetChanged();
     }
 
@@ -70,10 +98,12 @@ public class ToDoModelAdapter extends RecyclerView.Adapter<ToDoModelAdapter.MyVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private CheckBox ItemToDoCB;
+        private info.androidhive.fontawesome.FontTextView OperacionesItem;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             ItemToDoCB = itemView.findViewById(R.id.cb_item);
+            OperacionesItem = itemView.findViewById(R.id.OperacionesItemsFTV);
         }
 
         void bind(toDoModel s) {
