@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores usados en figma -->
+    <color name="Morado">#29062E</color>
+    <color name="Light_Morado">#FFB50F</color>
+    <color name="btn_Azul">#198efc</color>
+    <color name="light_bg">#412645</color>
+    <color name="light_azul">#29062E</color>
+
+    <color name="menu_amarillo">#FDE983</color>
+    <color name="icono_ficha_amarillo">#412645</color>
+    <color name="menu_rojo">#FDE983</color>
+    <color name="icono_ficha_rojo">#412645</color>
+    <color name="menu_lila">#FDE983</color>
+    <color name="icono_ficha_lila">#412645</color>
+
+    <!--Colores de los eventos-->
+    <color name="eventoRojo">#F1524F</color>
+    <color name="eventoAmarillo">#FEC627</color>
+    <color name="eventoAzul">#038ED1</color>
+    <color name="eventoMorado">#8362A7</color>
+    <color name="eventoVerde">#4BB168</color>
+    <color name="eventoRosa">#E86DA4</color>
+</resources>

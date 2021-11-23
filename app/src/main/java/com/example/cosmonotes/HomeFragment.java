@@ -2,6 +2,7 @@ package com.example.cosmonotes;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -74,10 +74,14 @@ public class HomeFragment extends Fragment {
     private SimpleDateFormat dateFormat;
     private String date;
 
+    private Context context;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        context = inflater.getContext();
+
         geocoder = new Geocoder(view.getContext(), Locale.getDefault());
 
         mWeatherTextView = view.findViewById(R.id.textviewWeather);
@@ -87,7 +91,7 @@ public class HomeFragment extends Fragment {
         mTextFecha = view.findViewById(R.id.text_fecha);
         mUserName = view.findViewById(R.id.textUserName);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.getContext());
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
         Locale espanol = new Locale("es","ES");
         dateFormat = new SimpleDateFormat("EEEE, d MMM ", espanol);
@@ -95,24 +99,22 @@ public class HomeFragment extends Fragment {
         date = dateFormat.format(fecha);
         mTextFecha.setText(date);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(view.getContext());
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(context);
         if(signInAccount != null){
             mProfileUserImgView.setImageURI(Uri.parse(String.valueOf(signInAccount.getPhotoUrl())));
             Picasso.get().load(signInAccount.getPhotoUrl()).placeholder(R.drawable.ic_launcher_background).into(mProfileUserImgView);
             mUserName.setText(upperCaseFirst(signInAccount.getDisplayName()));
         }
 
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            getLastLocation();
-        }
-
         return view;
     }
+
+
 
     @Override
     public void onStart() {
         super.onStart();
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             getLastLocation();
         }
         try {
@@ -140,22 +142,17 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSuccess(Location location) {
                 if(location != null){
-                    Log.d(TAG, "On succes: " + location.toString());
-                    Log.d(TAG, "On succes: " + location.getLongitude());
-
                     longitud = Double.toString(location.getLongitude());
-                    Log.d(TAG, "On succes: " + location.getLatitude());
                     latitud = Double.toString(location.getLatitude());
-
                     try {
                         addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         Ciudad = addresses.get(0).getLocality();
-                        Log.d(TAG, "Ciudad: " +  addresses.get(0).getLocality());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                     ApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+latitud+"&lon="+longitud+"&appid="+ApiKey+"&units=metric";
+                    //Toast.makeText(context, "Response" + getActivity() +" dd " + context, Toast.LENGTH_SHORT).show();
                     getWeather();
                 }
             }
@@ -169,10 +166,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void getWeather(){
-        RequestQueue queue = Volley.newRequestQueue(getView().getContext());
+        //Toast.makeText(context, "Response" + getActivity() +" dd " + context, Toast.LENGTH_SHORT).show();
         StringRequest string = new StringRequest(Request.Method.GET, ApiUrl, new Response.Listener<String>() {
             public void onResponse(String response) {
-                //Toast.makeText(getView().getContext(), "Response" + response.toString(), Toast.LENGTH_SHORT).show();
                 try {
                     JSONObject jsonData = new JSONObject(response);
                     JSONArray jsonWeatherArray = jsonData.getJSONArray("weather"); // ESte se usa para accesar al elemento weather y traer icono
@@ -184,16 +180,12 @@ public class HomeFragment extends Fragment {
 
                     mWeatherTextView.setText(Integer.toString((int) Math.round(temp)));
 
-
-                    Log.e(TAG, "Icono " + icon);
-
                     String IconDrawable = "w" + icon;
-                    int id = getResources().getIdentifier(IconDrawable, "drawable", getContext().getPackageName());
-                    Drawable drawable = getResources().getDrawable(id);
+                    int id = context.getResources().getIdentifier(IconDrawable, "drawable", context.getPackageName());
+                    Drawable drawable = context.getResources().getDrawable(id);
                     mIconWeatherImgView.setBackground(drawable);
 
                     mCityTextView.setText(Ciudad);
-                    Log.i(TAG, "Temperatura: " + temp);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -204,6 +196,7 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG, "ERROR: " + error.toString());
             }
         });
+        RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(string);
     }
 }

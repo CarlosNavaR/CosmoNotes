@@ -2,6 +2,7 @@ package com.example.cosmonotes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -38,6 +39,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         myDB = new DataBaseHelper(MainActivity.this);
+
+        CalendarUtils.selectedDate = LocalDate.now();
     }
 
 
@@ -211,4 +215,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Ingreso",Toast.LENGTH_SHORT).show();
         }
     }
+
 }
