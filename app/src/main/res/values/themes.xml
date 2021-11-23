@@ -26,4 +26,5 @@
     <style name="SplashTheme" parent="Theme.CosmoNotes">
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
+    
 </resources>

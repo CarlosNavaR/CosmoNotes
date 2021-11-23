@@ -2,6 +2,7 @@ package com.example.cosmonotes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -69,6 +71,7 @@ public class homeActivity extends AppCompatActivity {
         chipNavigationBar.setItemSelected(R.id.home, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new HomeFragment()).commit();
         MenuNavegacion();
+        setDayNight();
     }
 
     @Override
@@ -113,4 +116,20 @@ public class homeActivity extends AppCompatActivity {
     public void CancelCreateEvent(View view) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new CalendarFragment()).commit();
     }
+    public void configuracion(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new themeFragment()).commit();
+    }
+
+    public void setDayNight(){
+        SharedPreferences pref= getSharedPreferences("PREF",this.MODE_PRIVATE);
+        int theme= pref.getInt("Theme",1);
+        if (theme ==0){
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else{
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+
 }
