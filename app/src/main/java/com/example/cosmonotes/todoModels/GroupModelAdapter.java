@@ -1,32 +1,47 @@
 package com.example.cosmonotes.todoModels;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cosmonotes.CalendarModels.EventAdapter;
+import com.example.cosmonotes.NewGroupFragment;
+import com.example.cosmonotes.NewItemFragment;
 import com.example.cosmonotes.R;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.MyViewHolder> {
+    public static final String TAG = "AddNewItem";
     private List<groupModel> mList;
     private List<toDoModel> mListItems;
     private List<toDoModel> mListItemsCheck;
+    private List<toDoModel> items = new ArrayList<>();
     private Context context;
     private DataBaseHelper db;
     FragmentActivity activity;
+
+
 
     public Context getContext() {
         return context;
@@ -35,6 +50,7 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
     public void setContext(Context context) {
         this.context = context;
     }
+
 
     public GroupModelAdapter(DataBaseHelper db, Context context, FragmentActivity activity){
         this.context = context;
@@ -54,20 +70,25 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         final groupModel model = mList.get(position);
 
         holder.GroupTitleTV.setText(model.getTitleGroup());
-        mListItems = db.getAllItemsForGroup(position);
-        mListItemsCheck = db.getAllItemsCheckedForGroup(position);
+        GradientDrawable gradientDrawable = (GradientDrawable) holder.ColorCategoryLL.getBackground();
+        gradientDrawable.setColor(Color.parseColor(model.getColorGroup()));
+
+        mListItems = db.getAllItemsForGroup(model.getIdGroup());
+        mListItemsCheck = db.getAllItemsCheckedForGroup(model.getIdGroup());
 
         if(model.getStatus() == false){
             holder.IconGroupArrowFTV.setText(R.string.fa_caret_down_solid);
+            holder.ContainerButtonAddItem.setVisibility(View.GONE);
             holder.nestedItemsRV.setVisibility(View.GONE);
             holder.nestedItemsCheckedRV.setVisibility(View.GONE);
             holder.GroupSeparatorLL.setVisibility(View.GONE);
         }else{
             holder.IconGroupArrowFTV.setText(R.string.fa_caret_up_solid);
+            holder.ContainerButtonAddItem.setVisibility(View.VISIBLE);
             holder.nestedItemsRV.setVisibility(View.VISIBLE);
             holder.nestedItemsCheckedRV.setVisibility(View.VISIBLE);
             holder.GroupSeparatorLL.setVisibility(View.VISIBLE);
-            setRecyclerViewItems(holder,position);
+            setRecyclerViewItems(holder,position, db);
         }
 
         if(mListItems.size() == 0)
@@ -82,6 +103,17 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
                 notifyItemChanged(position);
             }
         });
+
+        holder.newItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewItemFragment newItemFragment = NewItemFragment.newInstance();
+                newItemFragment.setIdGroup(mList.get(position).getIdGroup());
+                newItemFragment.show(activity.getSupportFragmentManager(), NewItemFragment.TAG);
+                notifyDataSetChanged();
+            }
+
+        });
     }
 
     public void setGroups(List<groupModel> mList){
@@ -89,7 +121,33 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         notifyDataSetChanged();
     }
 
-    public void setRecyclerViewItems(MyViewHolder holder, int groupIndex){
+    public void deleteGroup(int position){
+        groupModel group = mList.get(position);
+
+        items = db.getAllItemsForGroup(group.getIdGroup());
+
+        if(items.size() == 0){
+            db.RemoveGroup(group.getIdGroup());
+            mList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void modifyGroup(int position){
+        groupModel group = mList.get(position);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", group.getIdGroup());
+        bundle.putString("group", group.getTitleGroup());
+        bundle.putString("color", group.getColorGroup());
+
+        NewGroupFragment groupFragment = new NewGroupFragment();
+        groupFragment.setArguments(bundle);
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, groupFragment).commit();
+        notifyItemChanged(position);
+    }
+
+    public void setRecyclerViewItems(MyViewHolder holder, int groupIndex,DataBaseHelper db){
         ToDoModelAdapter adapter = new ToDoModelAdapter(db, context,activity);
         holder.nestedItemsRV.setLayoutManager(new LinearLayoutManager(context));
         holder.nestedItemsRV.setAdapter(adapter);
@@ -133,6 +191,8 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         RecyclerView nestedItemsRV;
         RecyclerView nestedItemsCheckedRV;
         LinearLayout ColorCategoryLL;
+        LinearLayout ContainerButtonAddItem;
+        TextView newItem;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -142,6 +202,8 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
             nestedItemsRV = itemView.findViewById(R.id.nested_rv);
             nestedItemsCheckedRV = itemView.findViewById(R.id.nested_rv_done);
             ColorCategoryLL = itemView.findViewById(R.id.ColorCategory);
+            ContainerButtonAddItem = itemView.findViewById(R.id.btnAddNewToDo);
+            newItem = itemView.findViewById(R.id.newItem);
         }
     }
 }

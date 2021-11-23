@@ -97,6 +97,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
         NewEventFragment eventFragment = new NewEventFragment();
         eventFragment.setArguments(bundle);
+        //eventFragment.show(activity.getSupportFragmentManager(), eventFragment.getTag());
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, eventFragment).commit();
         notifyItemChanged(position);
     }
