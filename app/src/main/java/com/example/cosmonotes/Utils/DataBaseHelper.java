@@ -259,7 +259,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         List<toDoModel> modelCheckItemList = new ArrayList<>();
         db.beginTransaction();
         try{
-            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id+1), String.valueOf(1)});
+            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE idGroup=? AND Status=?", new String[]{String.valueOf(id), String.valueOf(1)});
             if(cursor != null){
                 if (cursor.moveToFirst()){
                     do{

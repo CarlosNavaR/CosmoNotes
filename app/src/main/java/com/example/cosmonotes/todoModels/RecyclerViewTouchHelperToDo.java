@@ -22,13 +22,15 @@ public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback 
     private static final String TAG = "GoogleActivity";
     private GroupModelAdapter adapter;
     private DataBaseHelper db;
+    private List<groupModel> GroupList;
     private List<toDoModel> mListItems;
     private List<toDoModel> mListItemsCheck;
 
-    public RecyclerViewTouchHelperToDo(GroupModelAdapter groupModelAdapter, DataBaseHelper db) {
+    public RecyclerViewTouchHelperToDo(GroupModelAdapter groupModelAdapter, DataBaseHelper db, List<groupModel> GroupList) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = groupModelAdapter;
         this.db = db;
+        this.GroupList = GroupList;
     }
 
 
@@ -40,8 +42,10 @@ public class RecyclerViewTouchHelperToDo extends ItemTouchHelper.SimpleCallback 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getBindingAdapterPosition();
-        mListItems = db.getAllItemsForGroup(position+1);
-        mListItemsCheck = db.getAllItemsCheckedForGroup(position);
+        int groupId = GroupList.get(position).getIdGroup();
+
+        mListItems = db.getAllItemsForGroup(groupId);
+        mListItemsCheck = db.getAllItemsCheckedForGroup(groupId);
         Log.d(TAG, "tamanio RVTH: " +  mListItems.size() + " sd " + mListItemsCheck.size());
 
         if (direction == ItemTouchHelper.RIGHT){

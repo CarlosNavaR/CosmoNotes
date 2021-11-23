@@ -51,7 +51,7 @@ public class ToDoFragment extends Fragment  implements OnDialogCloseListner {
 
         mList = db.getAllGroupsTodo();
         adapter.setGroups(mList);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelperToDo(adapter, db));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelperToDo(adapter, db, mList));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 

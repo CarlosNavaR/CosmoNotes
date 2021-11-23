@@ -72,8 +72,9 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
         holder.GroupTitleTV.setText(model.getTitleGroup());
         GradientDrawable gradientDrawable = (GradientDrawable) holder.ColorCategoryLL.getBackground();
         gradientDrawable.setColor(Color.parseColor(model.getColorGroup()));
-        mListItems = db.getAllItemsForGroup(position+1);
-        mListItemsCheck = db.getAllItemsCheckedForGroup(position);
+
+        mListItems = db.getAllItemsForGroup(model.getIdGroup());
+        mListItemsCheck = db.getAllItemsCheckedForGroup(model.getIdGroup());
 
         if(model.getStatus() == false){
             holder.IconGroupArrowFTV.setText(R.string.fa_caret_down_solid);
@@ -176,14 +177,6 @@ public class GroupModelAdapter extends RecyclerView.Adapter<GroupModelAdapter.My
 
         adapterCheck.setListItemsChecked(mListItemsCheck);
         adapterCheck.notifyDataSetChanged();
-    }
-
-    public int getItems() {
-        return mListItems.size();
-    }
-
-    public int getItemsChecked() {
-        return mListItemsCheck.size();
     }
 
     @Override
