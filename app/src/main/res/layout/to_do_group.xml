@@ -9,7 +9,7 @@
     app:cardCornerRadius="8dp"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
-    android:background="@color/light_bg">
+    android:background="@color/bg_events">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,18 +26,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp"
-            android:background="@color/light_bg">
+            android:background="@color/bg_events">
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_bg">
+                android:background="@color/bg_events">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:background="@color/light_bg">
+                    android:background="@color/bg_events">
 
                     <TextView
                         android:id="@+id/tv_GroupTitle"
@@ -47,7 +47,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/source_sans_pro_semibold"
                         android:text="8-txt-35"
-                        android:textColor="@color/Morado"
+                        android:textColor="@color/MoradoText"
                         android:textSize="16sp" />
 
                     <info.androidhive.fontawesome.FontTextView
@@ -58,7 +58,7 @@
                         android:layout_marginEnd="15dp"
                         android:text="@string/fa_sort_down_solid"
                         android:padding="5dp"
-                        android:textColor="@color/Morado"
+                        android:textColor="@color/MoradoText"
                         android:textSize="25sp"
                         app:solid_icon="true" />
                 </LinearLayout>

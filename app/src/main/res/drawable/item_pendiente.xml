@@ -10,7 +10,7 @@
                 android:right="1dp"
                 android:top="1dp" />
 
-            <solid android:color="#20CCCCCC" />
+            <solid android:color="@color/border_events" />
 
             <corners android:radius="8dp" />
         </shape>
@@ -23,7 +23,7 @@
                 android:right="1dp"
                 android:top="0dp" />
 
-            <solid android:color="#30CCCCCC" />
+            <solid android:color="@color/border_events" />
 
             <corners android:radius="8dp" />
         </shape>
@@ -38,7 +38,7 @@
                 android:right="2dp"
                 android:top="1dp" />
 
-            <solid android:color="#30CCCCCC" />
+            <solid android:color="@color/border_events" />
 
             <corners android:radius="8dp" />
         </shape>
@@ -47,7 +47,7 @@
     <!-- Background -->
     <item>
         <shape>
-            <solid android:color="@color/light_bg" />
+            <solid android:color="@color/bg_events" />
 
             <corners android:radius="8dp" />
         </shape>

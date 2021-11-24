@@ -25,7 +25,7 @@
         android:fontFamily="@font/source_sans_pro"
         android:gravity="center_vertical"
         android:text="Event"
-        android:textColor="@color/Morado"
+        android:textColor="@color/MoradoText"
         android:textSize="20sp" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:fontFamily="@font/source_sans_pro_light"
         android:gravity="center"
         android:text="time"
-        android:textColor="@color/black"
+        android:textColor="@color/MoradoText"
         android:textSize="16sp" />
 
 </LinearLayout>

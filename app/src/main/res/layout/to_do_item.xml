@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/light_bg">
+    android:background="@color/bg_events">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@color/light_bg">
+        android:background="@color/bg_events">
 
         <CheckBox
             android:id="@+id/cb_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_bg"
+            android:background="@color/bg_events"
             android:layout_weight="0.1"
             android:button="@null"
             android:drawableStart="@drawable/checkbox"

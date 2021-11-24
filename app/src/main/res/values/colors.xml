@@ -9,11 +9,14 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Colores usados en figma -->
+    <color name="CircleCalendar">#F7F5F7</color>
     <color name="Morado">#29062E</color>
     <color name="MoradoText">#29062E</color>
+
     <color name="Light_Morado">#653AB9</color>
     <color name="btn_Azul">#198efc</color>
     <color name="light_bg">#F7F5F7</color>
+    <color name="bg_events">#F7F5F7</color>
     <color name="light_azul">#BADDFE</color>
 
     <color name="menu_amarillo">#f0ea9c</color>
@@ -37,4 +40,8 @@
     <color name="eventoMorado">#8362A7</color>
     <color name="eventoVerde">#4BB168</color>
     <color name="eventoRosa">#E86DA4</color>
+
+    <!-- Colores del borde de los eventos -->
+    <color name="border_events">#20CCCCCC</color>
+    <color name="border_eventsM">#30CCCCCC</color>
 </resources>
