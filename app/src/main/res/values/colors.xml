@@ -10,16 +10,24 @@
 
     <!-- Colores usados en figma -->
     <color name="Morado">#29062E</color>
+    <color name="MoradoText">#29062E</color>
     <color name="Light_Morado">#653AB9</color>
     <color name="btn_Azul">#198efc</color>
     <color name="light_bg">#F7F5F7</color>
     <color name="light_azul">#BADDFE</color>
 
     <color name="menu_amarillo">#f0ea9c</color>
+    <color name="menu_rojo">#FFE7E7</color>
+    <color name="menu_lila">#EFD4FB</color>
+    <color name="menu_Azul">#BADDFE</color>
+
+    <color name="ficha_amarillo">#FFFADF</color>
+    <color name="ficha_rojo">#ffc9c9</color>
+    <color name="ficha_lila">#EFD4FB</color>
+    <color name="ficha_Azul">#BADDFE</color>
+
     <color name="icono_ficha_amarillo">#fde983</color>
-    <color name="menu_rojo">#ffc9c9</color>
     <color name="icono_ficha_rojo">#ffa0a0</color>
-    <color name="menu_lila">#efd4fb</color>
     <color name="icono_ficha_lila">#d066ff</color>
 
     <!--Colores de los eventos-->

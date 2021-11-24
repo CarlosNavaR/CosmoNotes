@@ -6,7 +6,7 @@
         android:icon="@drawable/homeicon"
         android:title="Inicio"
         app:cnb_textColor="@color/Morado"
-        app:cnb_backgroundColor="@color/light_azul"
+        app:cnb_backgroundColor="@color/menu_Azul"
         app:cnb_iconColor="@color/Morado"/>
     <item
         android:id="@+id/Calendario"
