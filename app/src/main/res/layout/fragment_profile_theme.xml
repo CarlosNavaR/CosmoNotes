@@ -14,24 +14,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/source_sans_pro_bold"
-        android:text="Configuracion"
+        android:text="Configuración"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="34sp" />
+        android:textSize="32sp" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:padding="10dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_shape">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             tools:ignore="UselessParent">
 
@@ -44,17 +46,75 @@
                 android:minHeight="48dp"
                 android:onClick="CloseConfiguration"
                 android:text="@string/fa_times_circle_solid"
-                android:textColor="@color/Morado"
+                android:textColor="@color/MoradoText"
                 android:textSize="25sp"
                 app:solid_icon="true" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ProfileUserImgView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="5dp"
+                android:contentDescription="@string/profilePictureText"
+                android:onClick="configuracion"
+                app:civ_border_color="@color/white"
+                app:civ_border_overlay="false"
+                app:civ_border_width="2dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/NombreTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Usuario"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:textColor="@color/MoradoText"/>
+
+            <TextView
+                android:id="@+id/CorreoTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Correo"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textColor="@color/MoradoText"/>
+
             <Switch
                 android:id="@+id/switchTheme"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="Modo oscuro"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LogOut"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:background="@drawable/item_pendiente"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <info.androidhive.fontawesome.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:gravity="center"
+                android:text="@string/fa_sign_out_alt_solid"
+                android:textColor="@color/MoradoText"
+                android:textSize="18sp"
+                app:solid_icon="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cerrar sesión"
+                android:textColor="@color/MoradoText"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 

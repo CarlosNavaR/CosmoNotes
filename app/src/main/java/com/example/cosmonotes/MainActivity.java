@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private DataBaseHelper myDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Splash Screen configuration
@@ -67,19 +68,14 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         setTheme(R.style.Theme_CosmoNotes);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         login_Button = findViewById(R.id.login_Button);
         setGooglePlusButtonText(login_Button, "Iniciar sesión");
-
-        findViewById(R.id.login_Button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        // [START initialize_auth]
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -89,9 +85,13 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
 
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        findViewById(R.id.login_Button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
+
         myDB = new DataBaseHelper(MainActivity.this);
     }
 

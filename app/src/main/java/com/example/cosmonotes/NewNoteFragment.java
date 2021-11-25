@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,12 @@ import com.example.cosmonotes.Utils.DataBaseHelper;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
-public class NewNoteFragment extends Fragment {
+public class NewNoteFragment extends Fragment  implements View.OnClickListener{
     public static final String TAG = "AddNewNote";
     private EditText mContenidoTV, mTituloTV;
     private String selectedColor;
@@ -38,8 +42,10 @@ public class NewNoteFragment extends Fragment {
 
     private DataBaseHelper db;
 
-    private TtsManager ttsManager = null;  //Objeto que convierte el texto a voz
-    private int stopTtsManager = 0;  // Variable para parar la lectura del texto
+    private TextToSpeech textToSpeech;
+    private String[] parrafos; // Guardar parrafos
+    private int NumeroParrafos = 0;
+    private int ListSize = 0;
 
     public static NewNoteFragment newInstance(){return new NewNoteFragment();}
 
@@ -52,8 +58,8 @@ public class NewNoteFragment extends Fragment {
         mContenidoTV = view.findViewById(R.id.EtxtContenido);
         txtVFechaNota = view.findViewById(R.id.txtVFechaNota);
         VozIconFAW = view.findViewById(R.id.readNote);
-
-        LocalDate localDate = LocalDate.now();//For reference
+        VozIconFAW.setOnClickListener(this);
+        LocalDate localDate = LocalDate.now();//For referencemContenidoTV.getText().toString()
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE dd MMMM yyyy");
         txtVFechaNota.setText(String.valueOf(localDate.format(formatter)));
 
@@ -65,10 +71,9 @@ public class NewNoteFragment extends Fragment {
         final info.androidhive.fontawesome.FontTextView imageColor4 = view.findViewById(R.id.iconColor4);
         final info.androidhive.fontawesome.FontTextView imageColor5 = view.findViewById(R.id.iconColor5);
         final info.androidhive.fontawesome.FontTextView imageColor6 = view.findViewById(R.id.iconColor6);
-
+        comprobarContenido();
         final Bundle bundle = getArguments();
         if(bundle != null) {
-            comprobarContenido();
             isUpdate = true;
             String title = bundle.getString("Titulo");
             String content = bundle.getString("Contenido");
@@ -76,6 +81,8 @@ public class NewNoteFragment extends Fragment {
 
             mTituloTV.setText(title);
             mContenidoTV.setText(content);
+            parrafos = mContenidoTV.getText().toString().split("\\n\\\n");
+            ListSize = parrafos.length;
 
             if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
                 imageColor1.setText(R.string.fa_check_circle_solid);
@@ -103,6 +110,8 @@ public class NewNoteFragment extends Fragment {
                 imageColor1.setText(R.string.fa_circle);
                 imageColor6.setText(R.string.fa_check_circle_solid);
             }
+        }else{
+            VozIconFAW.setVisibility(View.INVISIBLE);
         }
         view.findViewById(R.id.ViewColor1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,21 +187,6 @@ public class NewNoteFragment extends Fragment {
         });
 
         final boolean updateNote = isUpdate;
-        final boolean play = PlayNote;
-        VozIconFAW.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(play){
-                    PlayNote = false;
-                    VozIconFAW.setText(R.string.fa_volume_mute_solid);
-                }else{
-                    PlayNote = true;
-                    VozIconFAW.setText(R.string.fa_volume_up_solid);
-                    readingDescription(0);
-                }
-            }
-        });
-
         view.findViewById(R.id.NewNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +214,8 @@ public class NewNoteFragment extends Fragment {
                 }
             }
         });
+
+        initializeTextToSpeech();
         return view;
     }
 
@@ -234,37 +230,80 @@ public class NewNoteFragment extends Fragment {
 
     private void comprobarContenido() {
         if (mContenidoTV.getText().toString().isEmpty()) {
-            //Se inicializa el obejeto ttsManager y se llama al metodo init() para inicializar los atributos de la clase
-            ttsManager = new TtsManager();
-            ttsManager.init(this);
             VozIconFAW.setText(R.string.fa_volume_mute_solid);
+
         } else {
             VozIconFAW.setText(R.string.fa_volume_off_solid);
         }
     }
 
-    // Se inicia o detiene la lectura de voz
-    public void readingDescription(int stopTtsManager) {
-        switch (stopTtsManager) {
-            case 0:
-                stopTtsManager = 1;
-                //le pasamos el string que queremos que convierta a voz el Objeto ttsManager
-                ttsManager.initQueue(mContenidoTV.getText().toString());
-                break;
-            case 1:
-                stopTtsManager = 0;
-                ttsManager.stop();
-                break;
+
+    private void initializeTextToSpeech() {
+        textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS){
+                    Locale spanish = new Locale("es", "ES");
+                    textToSpeech.setLanguage(spanish);
+                    textToSpeech.setSpeechRate((float) 1.25); //1.0 is normal. lower value decrease the speed and upper value increase
+
+                    textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                        @Override
+                        public void onStart(String s) {
+                            //Logger.d("Started TextToSpeech");
+                        }
+                        @Override
+                        public void onDone(String s) {
+                            NumeroParrafos++;
+                            if(NumeroParrafos==ListSize){
+                                NumeroParrafos = 0;
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toasty.success(getContext(), "Lectura finalizada", Toast.LENGTH_SHORT, true).show();
+                                        VozIconFAW.setText(R.string.fa_volume_mute_solid);
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onError(String s) {
+                            Toasty.error(getContext(), "Fallo al Inicilizar", Toast.LENGTH_SHORT, true).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if(!textToSpeech.isSpeaking()) {
+            VozIconFAW.setText(R.string.fa_volume_up_solid);
+            HashMap<String, String> map = new HashMap<>();
+            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "speak");
+
+            for(int i=0; i<parrafos.length; i++) {
+                textToSpeech.speak(parrafos[i], TextToSpeech.QUEUE_ADD, map);
+                textToSpeech.playSilence(250, TextToSpeech.QUEUE_ADD, null);
+            }
+        } else {
+            textToSpeech.stop();
+            Toasty.info(getContext(), "Reproducción detenida", Toast.LENGTH_SHORT, true).show();
+            VozIconFAW.setText(R.string.fa_volume_mute_solid);
         }
     }
 
-    // Se destruye el lector de voz para que no consuma recursos del sistema
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (ttsManager != null) {
-            ttsManager.shutDown();
+        if(textToSpeech!=null) {
+            // Toasty.error(getContext(), "c:", Toast.LENGTH_SHORT, true).show();
+            textToSpeech.stop();
+            textToSpeech.shutdown();
         }
     }
-
 }
