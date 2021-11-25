@@ -245,7 +245,7 @@ public class NewNoteFragment extends Fragment  implements View.OnClickListener{
                 if(status == TextToSpeech.SUCCESS){
                     Locale spanish = new Locale("es", "ES");
                     textToSpeech.setLanguage(spanish);
-                    textToSpeech.setSpeechRate((float) 1.25); //1.0 is normal. lower value decrease the speed and upper value increase
+                    textToSpeech.setSpeechRate((float) 1.0); //1.0 is normal. lower value decrease the speed and upper value increase
 
                     textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                         @Override
