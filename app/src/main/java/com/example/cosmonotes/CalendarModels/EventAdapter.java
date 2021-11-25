@@ -113,9 +113,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         LinearLayout LLTagColor;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-             eventCellTV = itemView.findViewById(R.id.eventCellTV);
-             eventTimeCell = itemView.findViewById(R.id.TimeCell);
-             LLTagColor = itemView.findViewById(R.id.TagColorLY);
+            eventCellTV = itemView.findViewById(R.id.eventCellTV);
+            eventTimeCell = itemView.findViewById(R.id.TimeCell);
+            LLTagColor = itemView.findViewById(R.id.TagColorLY);
         }
     }
 }

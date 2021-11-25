@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.cosmonotes.CalendarModels.Event;
+import com.example.cosmonotes.Notes.Notes;
 import com.example.cosmonotes.todoModels.groupModel;
 import com.example.cosmonotes.todoModels.toDoModel;
 
@@ -38,6 +39,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_E5 = "Category";
     private static final String COL_E6 = "IdUser";
 
+    // Datos tabla notas
+    private static final String TABLE_NOTES = "Notes";
+    private static final String COL_N1 = "ID";
+    private static final String COL_N2 = "Title";
+    private static final String COL_N3 = "Content";
+    private static final String COL_N4 = "Category";
+    private static final String COL_N5 = "Encode";
+    private static final String COL_N6 = "Date";
+
     // Datos tabla pendientes
     private static final String TABLE_GROUPS_TODO = "ToDo_Groups";
     private static final String COL_G1 = "Id";
@@ -45,6 +55,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String COL_G3 = "Status";
     private static final String COL_G4 = "Category";
 
+    // Datos tabla Items
     private static final String TABLE_ITEMS_TODO = "ToDo_Items";
     private static final String COL_I1 = "Id";
     private static final String COL_I2 = "Title";
@@ -64,6 +75,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + COL_E3 + " text not null,"
             + COL_E4 + " text not null,"
             + COL_E5 + " text not null );";
+
+    private static final String NOTES_TABLE_CREATE = "create table " + TABLE_NOTES + " ("
+            + COL_N1 + " integer primary key autoincrement, "
+            + COL_N2 + " text not null, "
+            + COL_N3 + " text not null,"
+            + COL_N4 + " text not null,"
+            + COL_N5 + " integer not null default 0,"
+            + COL_N6 + " text not null);";
 
     private static final String GROUOPTODO_TABLE_CREATE = "create table " + TABLE_GROUPS_TODO + " ("
             + COL_G1 + " integer primary key autoincrement, "
@@ -85,6 +104,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(USER_TABLE_CREATE);
         db.execSQL(EVENTS_TABLE_CREATE);
+        db.execSQL(NOTES_TABLE_CREATE);
         db.execSQL(GROUOPTODO_TABLE_CREATE);
         db.execSQL(ITEMSTODO_TABLE_CREATE);
     }
@@ -93,6 +113,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_EVENTS);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NOTES);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_GROUPS_TODO);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_ITEMS_TODO);
         onCreate(db);
@@ -150,6 +171,86 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return modelEventList;
     }
+
+    // Operaciones para registros de la tabla de notas
+
+    // Insertamos una nota en la BD
+    public void insertarNota(Notes nota){
+        db = this.getWritableDatabase();
+        ContentValues content = new ContentValues();
+        content.put(COL_N2, nota.getTitulo());
+        content.put(COL_N3, nota.getContenido());
+        content.put(COL_N4, nota.getColorCategoria());
+        content.put(COL_N5, nota.getEncode());
+        content.put(COL_N6, nota.getFechaNota().toString());
+        // Usuario id
+        db.insert(TABLE_NOTES, null, content);
+    }
+
+    // Eliminamos una nota de la BD por su id
+    public void eliminarNota(Integer IDnota) {
+        db = this.getWritableDatabase();
+        db.delete(TABLE_NOTES, "ID=?", new String[]{String.valueOf(IDnota)});
+    }
+
+    // Actualizamos una nota en la BD por su id
+    public void actualizarNota(Integer IDnota, Notes nota) {
+        db = this.getWritableDatabase();
+        ContentValues content = new ContentValues();
+        content.put(COL_N2, nota.getTitulo());
+        content.put(COL_N3, nota.getContenido());
+        content.put(COL_N4, nota.getColorCategoria());
+        content.put(COL_N6, nota.getFechaNota().toString());
+        //Usuario id
+        db.update(TABLE_NOTES, content, "ID=?", new String[]{String.valueOf(IDnota)});
+    }
+
+    // Leemos una nota de la BD por su id
+    public Notes leerNota(Integer IDnota) {
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NOTES+" where ID=?", new String[]{String.valueOf(IDnota)});
+        Notes nota = null;
+        if (cursor.moveToFirst()) {
+            Notes note = new Notes();
+            note.setId_notas(cursor.getInt(cursor.getColumnIndex(COL_N1)));
+            note.setTitulo(cursor.getString(cursor.getColumnIndex(COL_N2)));
+            note.setContenido(cursor.getString(cursor.getColumnIndex(COL_N3)));
+            note.setColorCategoria(cursor.getString(cursor.getColumnIndex(COL_N4)));
+            note.setEncode(cursor.getInt(cursor.getColumnIndex(COL_N5)));
+            note.setFechaNota(cursor.getString(cursor.getColumnIndex(COL_N6)));
+        }
+        return nota;
+    }
+
+    // Leemos todas las notas de la BD
+    public List<Notes> leerNotas() {
+        db = this.getWritableDatabase();
+        Cursor cursor = null;
+        List<Notes> modelNoteList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.query(TABLE_NOTES, null, null, null, null, null, null);
+            if(cursor != null){
+                if (cursor.moveToFirst()){
+                    do{
+                        Notes note = new Notes();
+                        note.setId_notas(cursor.getInt(cursor.getColumnIndex(COL_N1)));
+                        note.setTitulo(cursor.getString(cursor.getColumnIndex(COL_N2)));
+                        note.setContenido(cursor.getString(cursor.getColumnIndex(COL_N3)));
+                        note.setColorCategoria(cursor.getString(cursor.getColumnIndex(COL_N4)));
+                        note.setEncode(cursor.getInt(cursor.getColumnIndex(COL_N5)));
+                        note.setFechaNota(cursor.getString(cursor.getColumnIndex(COL_N6)));
+                        modelNoteList.add(note);
+                    }while (cursor.moveToNext());
+                }
+            }
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return modelNoteList;
+    }
+
 
     // Operaciones para registros de la tabla de grupos (pendientes)
 

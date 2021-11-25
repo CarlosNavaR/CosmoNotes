@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 import info.androidhive.fontawesome.FontDrawable;
 
 public class homeActivity extends AppCompatActivity {
@@ -150,6 +151,14 @@ public class homeActivity extends AppCompatActivity {
 
     public void CloseConfiguration(View view) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new HomeFragment()).commit();
+    }
+
+    public void newNote(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new NewNoteFragment()).commit();
+    }
+
+    public void CancelNewNote(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new NotesFragment()).commit();
     }
 
 }

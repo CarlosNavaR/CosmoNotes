@@ -3,16 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/Morado"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".NotesFragment">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/TextViewNotas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:text="Notas"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
-        android:background="@drawable/rounded_shape">
+        android:background="@drawable/rounded_shape"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    </RelativeLayout>
+        <info.androidhive.fontawesome.FontTextView
+            android:id="@+id/newNote"
+            android:layout_marginTop="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/select_item_calendar"
+            android:gravity="center"
+            android:text="@string/fa_plus_solid"
+            android:textAlignment="center"
+            android:onClick="newNote"
+            android:textColor="@color/btn_Azul"
+            android:textSize="20sp"
+            app:solid_icon="true"
+            android:elevation="4dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RViewNotas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:background="@color/light_bg"
+                android:nestedScrollingEnabled="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

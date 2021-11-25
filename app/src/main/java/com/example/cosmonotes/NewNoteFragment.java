@@ -1,12 +1,9 @@
 package com.example.cosmonotes;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,40 +16,47 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cosmonotes.CalendarModels.Event;
-import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
+import com.example.cosmonotes.Notes.Notes;
+import com.example.cosmonotes.Notes.TtsManager;
 import com.example.cosmonotes.Utils.DataBaseHelper;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import es.dmoral.toasty.Toasty;
 
-
-public class NewEventFragment extends BottomSheetDialogFragment {
-    public static final String TAG = "AddNewEvent";
-
-    private EditText mTituloEventoET;
-    private TextView mFechaEventoTV, mHoraEventoTV;
-    private boolean isUpdate = false;
-    private LocalTime hora;
+public class NewNoteFragment extends Fragment {
+    public static final String TAG = "AddNewNote";
+    private EditText mContenidoTV, mTituloTV;
     private String selectedColor;
+    private TextView txtVFechaNota;
+    private info.androidhive.fontawesome.FontTextView VozIconFAW;
+
+    private boolean isUpdate = false;
+    private boolean PlayNote = false;
 
     private DataBaseHelper db;
 
-    public static NewEventFragment newInstance(){
-        return new NewEventFragment();
-    }
+    private TtsManager ttsManager = null;  //Objeto que convierte el texto a voz
+    private int stopTtsManager = 0;  // Variable para parar la lectura del texto
+
+    public static NewNoteFragment newInstance(){return new NewNoteFragment();}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_event, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_new_note, container, false);
         db = new DataBaseHelper(getActivity());
+        mTituloTV = view.findViewById(R.id.EtxtTitulo);
+        mContenidoTV = view.findViewById(R.id.EtxtContenido);
+        txtVFechaNota = view.findViewById(R.id.txtVFechaNota);
+        VozIconFAW = view.findViewById(R.id.readNote);
 
-        mTituloEventoET = view.findViewById(R.id.eventTitleET);
-        mFechaEventoTV = view.findViewById(R.id.eventDate);
-        mHoraEventoTV = view.findViewById(R.id.eventTime);
+        LocalDate localDate = LocalDate.now();//For reference
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE dd MMMM yyyy");
+        txtVFechaNota.setText(String.valueOf(localDate.format(formatter)));
+
         selectedColor = "#F1524F";
 
         final info.androidhive.fontawesome.FontTextView imageColor1 = view.findViewById(R.id.iconColor1);
@@ -61,18 +65,17 @@ public class NewEventFragment extends BottomSheetDialogFragment {
         final info.androidhive.fontawesome.FontTextView imageColor4 = view.findViewById(R.id.iconColor4);
         final info.androidhive.fontawesome.FontTextView imageColor5 = view.findViewById(R.id.iconColor5);
         final info.androidhive.fontawesome.FontTextView imageColor6 = view.findViewById(R.id.iconColor6);
-        hora = LocalTime.now();
 
         final Bundle bundle = getArguments();
-
-        if(bundle != null){
+        if(bundle != null) {
+            comprobarContenido();
             isUpdate = true;
-            String title = bundle.getString("event");
-            String time = bundle.getString("time");
-            mTituloEventoET.setText(title);
-            mFechaEventoTV.setText(CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
+            String title = bundle.getString("Titulo");
+            String content = bundle.getString("Contenido");
             selectedColor = bundle.getString("color");
-            mHoraEventoTV.setText(time);
+
+            mTituloTV.setText(title);
+            mContenidoTV.setText(content);
 
             if(Color.parseColor(selectedColor) == Color.parseColor("#F1524F"))
                 imageColor1.setText(R.string.fa_check_circle_solid);
@@ -100,11 +103,7 @@ public class NewEventFragment extends BottomSheetDialogFragment {
                 imageColor1.setText(R.string.fa_circle);
                 imageColor6.setText(R.string.fa_check_circle_solid);
             }
-        }else{
-            mHoraEventoTV.setText(" " + CalendarUtils.formatoTIempo(hora));
-            mFechaEventoTV.setText(" " + CalendarUtils.formatoFecha(CalendarUtils.selectedDate));
         }
-
         view.findViewById(R.id.ViewColor1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,38 +177,52 @@ public class NewEventFragment extends BottomSheetDialogFragment {
             }
         });
 
-        final boolean updateEvent = isUpdate;
-
-        view.findViewById(R.id.SaveEvent).setOnClickListener(new View.OnClickListener() {
+        final boolean updateNote = isUpdate;
+        final boolean play = PlayNote;
+        VozIconFAW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(!mTituloEventoET.getText().toString().isEmpty()){
-                   String TituloEvento = mTituloEventoET.getText().toString();
-                   Event newEvent = new Event(TituloEvento, CalendarUtils.selectedDate, hora, selectedColor);
+                if(play){
+                    PlayNote = false;
+                    VozIconFAW.setText(R.string.fa_volume_mute_solid);
+                }else{
+                    PlayNote = true;
+                    VozIconFAW.setText(R.string.fa_volume_up_solid);
+                    readingDescription(0);
+                }
+            }
+        });
 
-                   if(updateEvent)
-                       db.updateEvent(bundle.getInt("id"), newEvent);
-                   else
-                       db.saveEvent(newEvent);
-                   //Event.eventsList.add(newEvent);
+        view.findViewById(R.id.NewNote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mTituloTV.getText().toString().isEmpty() && !mContenidoTV.getText().toString().isEmpty()){
+                    String TituloEvento = mTituloTV.getText().toString();
+                    String contenido = mContenidoTV.getText().toString();
+                    Notes newNote = new Notes(TituloEvento, contenido, selectedColor, localDate,0);
 
-                   ocultarTeclado();
-                   FragmentTransaction trans = getFragmentManager().beginTransaction();
-                   trans.replace(R.id.fragment_Container, new CalendarFragment());
-                   trans.commit();
-                   if(updateEvent)
-                       Toasty.success(getContext(), "Evento actualizado correctamente", Toast.LENGTH_SHORT, true).show();
-                   else
-                       Toasty.success(getContext(), "Evento creado correctamente", Toast.LENGTH_SHORT, true).show();
-               }else{
-                   Toasty.warning(getContext(), "Ningún campo debe estar vacío", Toast.LENGTH_SHORT, true).show();
-               }
+                    if(updateNote)
+                        db.actualizarNota(bundle.getInt("id"), newNote);
+                    else
+                        db.insertarNota(newNote);
+
+                    ocultarTeclado();
+                    FragmentTransaction trans = getFragmentManager().beginTransaction();
+                    trans.replace(R.id.fragment_Container, new NotesFragment());
+                    trans.commit();
+
+                    if(updateNote)
+                        Toasty.success(getContext(), "Nota actualizada correctamente", Toast.LENGTH_SHORT, true).show();
+                    else
+                        Toasty.success(getContext(), "Nota creada correctamente", Toast.LENGTH_SHORT, true).show();
+                }else{
+                    Toasty.warning(getContext(), "Ningún campo debe estar vacío", Toast.LENGTH_SHORT, true).show();
+                }
             }
         });
         return view;
     }
 
-    // Se usa para ocultar el teclado antes de crar el evento y no modifique los elementos
     public void ocultarTeclado(){
         View vieww = getActivity().getCurrentFocus();
         if(vieww != null){
@@ -218,4 +231,40 @@ public class NewEventFragment extends BottomSheetDialogFragment {
             input.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
         }
     }
+
+    private void comprobarContenido() {
+        if (mContenidoTV.getText().toString().isEmpty()) {
+            //Se inicializa el obejeto ttsManager y se llama al metodo init() para inicializar los atributos de la clase
+            ttsManager = new TtsManager();
+            ttsManager.init(this);
+            VozIconFAW.setText(R.string.fa_volume_mute_solid);
+        } else {
+            VozIconFAW.setText(R.string.fa_volume_off_solid);
+        }
+    }
+
+    // Se inicia o detiene la lectura de voz
+    public void readingDescription(int stopTtsManager) {
+        switch (stopTtsManager) {
+            case 0:
+                stopTtsManager = 1;
+                //le pasamos el string que queremos que convierta a voz el Objeto ttsManager
+                ttsManager.initQueue(mContenidoTV.getText().toString());
+                break;
+            case 1:
+                stopTtsManager = 0;
+                ttsManager.stop();
+                break;
+        }
+    }
+
+    // Se destruye el lector de voz para que no consuma recursos del sistema
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (ttsManager != null) {
+            ttsManager.shutDown();
+        }
+    }
+
 }

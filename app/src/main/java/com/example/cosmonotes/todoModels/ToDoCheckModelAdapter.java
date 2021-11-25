@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -22,6 +23,8 @@ import com.example.cosmonotes.Utils.DataBaseHelper;
 import java.util.List;
 
 import javax.security.auth.callback.Callback;
+
+import es.dmoral.toasty.Toasty;
 
 public class ToDoCheckModelAdapter extends RecyclerView.Adapter<ToDoCheckModelAdapter.MyViewHolder>{
     private List<toDoModel> mListItemsChecked;
@@ -64,6 +67,7 @@ public class ToDoCheckModelAdapter extends RecyclerView.Adapter<ToDoCheckModelAd
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DeleteItemChecked(position);
+                        Toasty.success(context, "Tarea eliminada correctamente", Toast.LENGTH_SHORT, true).show();
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

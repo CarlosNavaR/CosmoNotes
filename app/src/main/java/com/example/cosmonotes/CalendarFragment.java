@@ -89,7 +89,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         mEventListVIew.setLayoutManager(new LinearLayoutManager(getContext()));
         mEventListVIew.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelper(adapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewTouchHelper(adapter, getContext()));
         itemTouchHelper.attachToRecyclerView(mEventListVIew);
     }
 

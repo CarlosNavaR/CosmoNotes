@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/Morado"
+    tools:context=".NewNoteFragment">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:text="Nota"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_shape"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/txtVFechaNota"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/source_sans_pro_light"
+                android:gravity="bottom"
+                android:text="Fecha:"
+                android:textAlignment="textStart"
+                android:textColor="@color/MoradoText"
+                android:textSize="16sp"
+                tools:ignore="RtlCompat" />
+
+            <info.androidhive.fontawesome.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:text="@string/fa_times_circle_solid"
+                android:onClick="CancelNewNote"
+                android:textColor="@color/MoradoText"
+                android:textSize="25sp"
+                app:solid_icon="true" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtVTituloNotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/source_sans_pro_semibold"
+            android:text="Titulo"
+            android:textColor="@color/MoradoText"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/EtxtTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:padding="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:background="@drawable/item_pendiente"
+                android:textColor="@color/MoradoText"
+                android:layout_marginBottom="10dp"/>
+
+            <info.androidhive.fontawesome.FontTextView
+                android:id="@+id/readNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:text="@string/fa_volume_mute_solid"
+                android:textColor="@color/MoradoText"
+                android:textSize="25sp"
+                app:solid_icon="true" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/EtxtContenido"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:gravity="start|top"
+            android:hint="Introduce el texto aqui"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:singleLine="false"
+            android:background="@drawable/item_pendiente"
+            android:textColor="@color/MoradoText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/source_sans_pro_bold"
+            android:text="Selecciona un color"
+            android:textColor="@color/MoradoText"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/item_pendiente"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+                <View
+                    android:id="@+id/ViewColor1"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_event_color"
+                    android:layout_gravity="center"/>
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:id="@+id/iconColor1"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/fa_check_circle_solid"
+                    android:textColor="@color/eventoRojo"
+                    android:textSize="20sp"
+                    app:solid_icon="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <View
+                    android:id="@+id/ViewColor2"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_event_color1"
+                    android:layout_gravity="center"/>
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:id="@+id/iconColor2"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/fa_circle"
+                    android:textColor="@color/eventoAmarillo"
+                    android:textSize="20sp"
+                    app:solid_icon="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <View
+                    android:id="@+id/ViewColor3"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_event_color2"
+                    android:layout_gravity="center"/>
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:id="@+id/iconColor3"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/fa_circle"
+                    android:textColor="@color/eventoAzul"
+                    android:textSize="20sp"
+                    app:solid_icon="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <View
+                    android:id="@+id/ViewColor4"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_event_color3"
+                    android:layout_gravity="center"/>
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:id="@+id/iconColor4"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/fa_circle"
+                    android:textColor="@color/eventoMorado"
+                    android:textSize="20sp"
+                    app:solid_icon="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <View
+                    android:id="@+id/ViewColor5"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_event_color4"
+                    android:layout_gravity="center"/>
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:id="@+id/iconColor5"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/fa_circle"
+                    android:textColor="@color/eventoVerde"
+                    android:textSize="20sp"
+                    app:solid_icon="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <View
+                    android:id="@+id/ViewColor6"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_event_color5"
+                    android:layout_gravity="center"/>
+
+                <info.androidhive.fontawesome.FontTextView
+                    android:id="@+id/iconColor6"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="@string/fa_circle"
+                    android:textColor="@color/eventoRosa"
+                    android:textSize="20sp"
+                    app:solid_icon="true"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp">
+            <Button
+                android:id="@+id/btnLeer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Audio/Leer" />
+
+            <Button
+                android:id="@+id/NewNote"
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardar" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

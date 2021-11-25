@@ -1,10 +1,12 @@
 package com.example.cosmonotes.CalendarModels;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -14,15 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cosmonotes.R;
 import com.example.cosmonotes.todoModels.GroupModelAdapter;
 
+import es.dmoral.toasty.Toasty;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
     private static final String TAG = "GoogleActivity";
     private EventAdapter adapter;
+    private Context context;
 
-    public RecyclerViewTouchHelper(EventAdapter eventAdapter) {
+    public RecyclerViewTouchHelper(EventAdapter eventAdapter, Context context) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = eventAdapter;
+        this.context = context;
     }
 
     @Override
@@ -42,6 +47,7 @@ public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     adapter.deleteEvent(position);
+                    Toasty.success(context, "Evento eliminado correctamente", Toast.LENGTH_SHORT, true).show();
                 }
             });
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

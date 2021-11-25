@@ -19,11 +19,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
 import com.example.cosmonotes.Utils.DataBaseHelper;
 import com.example.cosmonotes.todoModels.toDoModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import es.dmoral.toasty.Toasty;
 
 public class NewItemFragment extends BottomSheetDialogFragment {
     public static final String TAG = "AddNewItem";
@@ -65,21 +68,29 @@ public class NewItemFragment extends BottomSheetDialogFragment {
         view.findViewById(R.id.SaveItemBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tituloItem = mTituloItemET.getText().toString();
-                int idGrouop = getIdGroup();
-                if(updateItem){
-                    toDoModel item = new toDoModel(tituloItem, 0,bundle.getInt("idGroup"));
-                    db.UpdateItemToDo(bundle.getInt("id"), item);
+                if(!mTituloItemET.getText().toString().isEmpty()){
+                    String tituloItem = mTituloItemET.getText().toString();
+                    int idGrouop = getIdGroup();
+                    if(updateItem){
+                        toDoModel item = new toDoModel(tituloItem, 0,bundle.getInt("idGroup"));
+                        db.UpdateItemToDo(bundle.getInt("id"), item);
+                    }
+                    else
+                        db.saveItemToDo(tituloItem, idGrouop);
+
+
+                    dismiss();
+                    ocultarTeclado();
+                    FragmentTransaction trans = getFragmentManager().beginTransaction();
+                    trans.replace(R.id.fragment_Container, new ToDoFragment());
+                    trans.commit();
+                    if(updateItem)
+                        Toasty.success(getContext(), "Tarea actualizada correctamente", Toast.LENGTH_SHORT, true).show();
+                    else
+                        Toasty.success(getContext(), "Tarea creada correctamente", Toast.LENGTH_SHORT, true).show();
+                }else{
+                    Toasty.warning(getContext(), "Ningún campo debe estar vacío", Toast.LENGTH_SHORT, true).show();
                 }
-                else
-                    db.saveItemToDo(tituloItem, idGrouop);
-
-
-                dismiss();
-                ocultarTeclado();
-                FragmentTransaction trans = getFragmentManager().beginTransaction();
-                trans.replace(R.id.fragment_Container, new ToDoFragment());
-                trans.commit();
             }
         });
 

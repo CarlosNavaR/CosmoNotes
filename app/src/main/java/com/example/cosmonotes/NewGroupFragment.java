@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cosmonotes.CalendarModels.Event;
 import com.example.cosmonotes.CalendarModels.OnDialogCloseListner;
@@ -27,6 +28,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.security.acl.Group;
 import java.time.LocalTime;
+
+import es.dmoral.toasty.Toasty;
 
 public class NewGroupFragment extends BottomSheetDialogFragment {
     public static final String TAG = "AddNewGroup";
@@ -172,18 +175,27 @@ public class NewGroupFragment extends BottomSheetDialogFragment {
         view.findViewById(R.id.SaveGroup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String TituloGroup = mTituloGroupET.getText().toString();
-                groupModel newGroup = new groupModel(TituloGroup, selectedColor);
+                if(!mTituloGroupET.getText().toString().isEmpty()){
+                    String TituloGroup = mTituloGroupET.getText().toString();
+                    groupModel newGroup = new groupModel(TituloGroup, selectedColor);
 
-                if(updateGroup)
-                    db.updateGroup(bundle.getInt("id"), newGroup);
-                else
-                    db.saveGroupToDo(newGroup);
+                    if(updateGroup)
+                        db.updateGroup(bundle.getInt("id"), newGroup);
+                    else
+                        db.saveGroupToDo(newGroup);
 
-                ocultarTeclado();
-                FragmentTransaction trans = getFragmentManager().beginTransaction();
-                trans.replace(R.id.fragment_Container, new ToDoFragment());
-                trans.commit();
+                    ocultarTeclado();
+                    FragmentTransaction trans = getFragmentManager().beginTransaction();
+                    trans.replace(R.id.fragment_Container, new ToDoFragment());
+                    trans.commit();
+
+                    if(updateGroup)
+                        Toasty.success(getContext(), "Categoría actualizado correctamente", Toast.LENGTH_SHORT, true).show();
+                    else
+                        Toasty.success(getContext(), "Categoría creado correctamente", Toast.LENGTH_SHORT, true).show();
+                }else{
+                    Toasty.warning(getContext(), "Ningún campo debe estar vacío", Toast.LENGTH_SHORT, true).show();
+                }
             }
         });
         return view;
