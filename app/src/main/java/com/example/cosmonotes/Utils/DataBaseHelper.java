@@ -380,6 +380,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return modelCheckItemList;
     }
 
+    public List<toDoModel> getAllItemsList(){
+        db = this.getWritableDatabase();
+        Cursor cursor = null;
+        List<toDoModel> modelCheckItemList = new ArrayList<>();
+        db.beginTransaction();
+        try{
+            cursor = db.rawQuery("SELECT * FROM ToDo_Items WHERE Status=?", new String[]{String.valueOf(0)});
+            if(cursor != null){
+                if (cursor.moveToFirst()){
+                    do{
+                        toDoModel item = new toDoModel();
+                        item.setIdItem(cursor.getInt(0));
+                        item.setTask(cursor.getString(1));
+                        item.setStatus(cursor.getInt(2));
+                        item.setGroup(cursor.getInt(3));
+                        modelCheckItemList.add(item);
+                    }while (cursor.moveToNext());
+                }
+            }
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+        return modelCheckItemList;
+    }
+
+
     public void UpdateItemToDo(int id, toDoModel toDoModel){
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

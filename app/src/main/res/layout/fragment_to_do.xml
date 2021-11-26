@@ -30,9 +30,9 @@
 
         <info.androidhive.fontawesome.FontTextView
             android:id="@+id/newToDo"
-            android:layout_marginTop="20dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/select_item_calendar"
             android:gravity="center"
             android:text="@string/fa_plus_solid"
@@ -42,13 +42,18 @@
             android:textSize="20sp"
             app:solid_icon="true"
             android:elevation="4dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_todoGroups"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:background="@color/light_bg"
-            android:nestedScrollingEnabled="true"/>
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_todoGroups"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:background="@color/light_bg"
+                android:nestedScrollingEnabled="true"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

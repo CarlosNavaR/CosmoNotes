@@ -66,6 +66,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,20 +78,20 @@
                     android:layout_width="362dp"
                     android:layout_height="127dp"
                     android:background="@drawable/ficha_general"
-                    android:orientation="horizontal"
-                    android:gravity="center"
                     android:elevation="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     android:paddingLeft="15dp">
 
                     <ImageView
                         android:id="@+id/IconImageWeather"
                         android:layout_width="130dp"
-                        android:paddingTop="5dp"
                         android:layout_height="110dp"
                         android:layout_marginStart="2dp"
+                        android:layout_weight="0.5"
                         android:contentDescription="@string/app_name"
-                        tools:srcCompat="@tools:sample/avatars"
-                        android:layout_weight="0.5"/>
+                        android:paddingTop="5dp"
+                        tools:srcCompat="@tools:sample/avatars" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -109,12 +110,14 @@
                             android:text="TextView"
                             android:textColor="@color/MoradoText"
                             android:textSize="15sp" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_weight="0.9"
                             android:gravity="center_vertical"
-                            android:layout_weight="0.9">
+                            android:orientation="horizontal">
+
                             <TextView
                                 android:id="@+id/textviewWeather"
                                 android:layout_width="50dp"
@@ -123,7 +126,8 @@
                                 android:text="-20"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/MoradoText"
-                                android:textSize="35sp"/>
+                                android:textSize="35sp" />
+
                             <TextView
                                 android:id="@+id/textView2"
                                 android:layout_width="63dp"
@@ -137,8 +141,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
 
                             <info.androidhive.fontawesome.FontTextView
                                 android:layout_width="wrap_content"
@@ -154,12 +158,12 @@
                                 android:id="@+id/textViewCity"
                                 android:layout_width="134dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
                                 android:fontFamily="@font/source_sans_pro"
                                 android:text="TextView"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/MoradoText"
-                                android:layout_marginStart="5dp"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -187,6 +191,7 @@
                         app:layout_constraintVertical_bias="0.51" />
 
                     <info.androidhive.fontawesome.FontTextView
+                        android:id="@+id/fontTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="116dp"
@@ -203,9 +208,10 @@
                         android:id="@+id/eventsNumberTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="52dp"
+                        android:padding="10dp"
+                        android:textColor="@color/btn_Azul"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/fontTextView"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.506" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -232,6 +238,7 @@
                         app:layout_constraintVertical_bias="0.51" />
 
                     <info.androidhive.fontawesome.FontTextView
+                        android:id="@+id/fontTextView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="116dp"
@@ -243,6 +250,17 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:solid_icon="true" />
+
+                    <TextView
+                        android:id="@+id/NotesNumberTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textColor="@color/btn_Azul"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/fontTextView2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.506" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -268,6 +286,7 @@
                         app:layout_constraintVertical_bias="0.51" />
 
                     <info.androidhive.fontawesome.FontTextView
+                        android:id="@+id/fontTextView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="116dp"
@@ -279,6 +298,17 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:solid_icon="true" />
+
+                    <TextView
+                        android:id="@+id/TodoNumberTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textColor="@color/btn_Azul"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/fontTextView3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.506" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>

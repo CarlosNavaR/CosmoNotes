@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/Morado"
-    tools:context=".WeekViewActivity">
+    android:background="@color/Morado">
 
     <TextView
         android:id="@+id/textView5"
@@ -166,21 +165,29 @@
             android:orientation="horizontal"
             android:layout_weight="0.55" />
 
-        <info.androidhive.fontawesome.FontTextView
-            android:id="@+id/newEvent"
-            android:layout_marginTop="20dp"
-            android:layout_width="50dp"
-            android:layout_height="1dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/select_item_calendar"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_shape"
             android:gravity="center"
-            android:text="@string/fa_plus_solid"
-            android:textAlignment="center"
-            android:textColor="@color/btn_Azul"
-            android:textSize="20sp"
-            app:solid_icon="true"
-            android:onClick="newEvent"
-            android:elevation="4dp"/>
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <info.androidhive.fontawesome.FontTextView
+                android:id="@+id/newEvent"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/select_item_calendar"
+                android:gravity="center"
+                android:text="@string/fa_plus_solid"
+                android:textAlignment="center"
+                android:onClick="newEvent"
+                android:textColor="@color/btn_Azul"
+                android:textSize="20sp"
+                app:solid_icon="true"
+                android:elevation="4dp"/>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/eventList"

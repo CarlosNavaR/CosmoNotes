@@ -31,8 +31,8 @@
         <info.androidhive.fontawesome.FontTextView
             android:id="@+id/newNote"
             android:layout_marginTop="20dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/select_item_calendar"
             android:gravity="center"
             android:text="@string/fa_plus_solid"

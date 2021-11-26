@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cosmonotes.Utils.DataBaseHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -71,11 +72,13 @@ public class HomeFragment extends Fragment {
     private CircleImageView mProfileUserImgView;
     private TextView mTextFecha;
     private TextView mUserName;
+    private TextView eventsNumberTV,NotesNumberTV,ToDoNumberTV;
 
     private SimpleDateFormat dateFormat;
     private String date;
 
     private Context context;
+    DataBaseHelper db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,6 +94,14 @@ public class HomeFragment extends Fragment {
         mProfileUserImgView = view.findViewById(R.id.ProfileUserImgView);
         mTextFecha = view.findViewById(R.id.text_fecha);
         mUserName = view.findViewById(R.id.textUserName);
+        eventsNumberTV = view.findViewById(R.id.eventsNumberTV);
+        NotesNumberTV = view.findViewById(R.id.NotesNumberTV);
+        ToDoNumberTV = view.findViewById(R.id.TodoNumberTV);
+
+        db = new DataBaseHelper(getActivity());
+        eventsNumberTV.setText(String.valueOf(db.getAllEvents().size()) + " Evento(s)");
+        NotesNumberTV.setText(String.valueOf(db.leerNotas().size()) + " Nota(s)");
+        ToDoNumberTV.setText(String.valueOf(db.getAllItemsList().size()) + " Pendiente(s)");
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
