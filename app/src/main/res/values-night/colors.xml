@@ -12,6 +12,7 @@
     <color name="CircleCalendar">#29062E</color>
     <color name="Morado">#29062E</color>
     <color name="MoradoText">#FFFFFF</color>
+    <color name="TextUIPrincipal">#FFB50F</color>
 
     <color name="Light_Morado">#FFB50F</color>
     <color name="btn_Azul">#FFB50F</color>
